@@ -40,12 +40,17 @@ body {
     text-align: center;
     margin-top: -6em;
 }
-    .home_form input {
+    .home_form .home_button {
         border: none !important;
         line-height: inherit !important;
+        font-family: 'Permanent Marker', cursive !important;
+        font-size: 1.3em !important;
+        color: #333 !important;
+        padding: .4em 1em !important;
+        height: auto;
     }
-    .home_form .home_input {
-        margin-right: 1em;
-        width: 23em;
-        letter-spacing: 1px;
-    }
+
+label {
+    color: white;
+}
+

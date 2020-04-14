@@ -1,5 +1,7 @@
 <script type="coffee">
 
+#--- COMMON ---#
+
 questions = [
     "What is 'the moon'?",
     "What's your favorite animal?",
@@ -12,71 +14,112 @@ questions = [
     "What are you the patron saint of?"
     ]
 
+# Generate a random integer up to (not including) max
 getRandomInt = (max) ->
     Math.floor(Math.random() * Math.floor(max))
 
+# Get a random integer guaranteed to be different from a current one
 getDifferentRandomInt = (max, cur) ->
     n = getRandomInt(max)
     while n == cur
         n = getRandomInt(max)
     n
 
-# todo: set hash as a state variable
+# from https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+# dec2hex :: Integer -> String
+# i.e. 0-255 -> '00'-'ff'
+dec2hex = (dec) ->
+    ('0' + dec.toString(16)).substr(-2)
 
+# from https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+# generateId :: Integer -> String
+generateId = (len) ->
+    arr = new Uint8Array((len || 40) / 2)
+    window.crypto.getRandomValues(arr)
+    Array.from(arr, dec2hex).join('')
+
+
+
+#--- STATE ---#
+
+# State variables.
+hash = fetch('hash')
+party = {}
+
+# Set the party hash.
+setHash = (str) ->
+    hash.val = str
+    save(hash)
+    party = fetch('/' + hash.val)
+
+# Are we in a party?
 if window.location.hash
+    str = window.location.hash.substring(1)
+    setHash(str)
 
-    hash = window.location.hash.substring(1)
+dom.BODY = ->
+    if hash.val
+        PARTY_PAGE()
+    else
+        LANDING_PAGE()
 
-    state = fetch('/'+hash)
 
-    if state == undefined
-        state = {}
-        save(state)
+
+PARTY_PAGE = ->
+
+    # TODO: Why is this necessary? It was done above. Scope issue?
+    party = fetch('/' + hash.val)
+
+    if !party.question_number
+        party.question_number = getRandomInt(questions.length)
+        save(party)
 
     dom.HELLO = ->
-        H1('You are in ASKHOLE ePARTY ROOM: ' + hash)
+        H3('You are in ASKHOLE ePARTY ROOM: ' + hash.val)
 
     dom.QUESTION = ->
-        fetch(state)
-        question = questions[state.question_number]
+        question = questions[party.question_number]
         DIV {},
-            '#' + (state.question_number+1) + ': '
+            '#' + (party.question_number+1) + ': '
             question
 
     dom.NEXT = ->
         BUTTON
             onClick: =>
-                state.question_number =
-                    getDifferentRandomInt(questions.length, state.question_number)
-                save(state)
+                party.question_number =
+                    getDifferentRandomInt(questions.length, party.question_number)
+                save(party)
             'next question'
 
-    dom.BODY = ->
-        DIV {},
-            dom.HELLO()
-            dom.QUESTION()
-            dom.NEXT()
+    DIV {},
+        dom.HELLO()
+        dom.QUESTION()
+        dom.NEXT()
 
-else
-    dom.BODY = ->
-        DIV {className: 'home_welcome'},
-            DIV {className: 'home_title'},
-                SPAN('PLAY WITH FRIENDS')
-            DIV {className: 'home_cover'}
-            DIV {className: 'home_form'},
-                FORM {},
-                    onSubmit: =>
-                        window.location.href = document.baseURI + '#abc'
-                        return false
-                    INPUT
-                        className: 'home_input'
-                        width: '200'
-                        type: 'text'
-                        placeholder: 'JellyfishJuicebox'
-                    INPUT
-                        className: 'home_button'
-                        type: 'submit'
-                        value: 'Join →'
+
+
+LANDING_PAGE = ->
+
+    # TODO: Why is this necessary? It was done above. Scope issue?
+    hash = fetch('hash')
+
+    DIV {className: 'home_welcome'},
+        DIV {className: 'home_title'},
+            SPAN('PLAY WITH FRIENDS')
+        DIV {className: 'home_cover'}
+        DIV {className: 'home_form'},
+            onClick: =>
+                id = generateId(10)
+                window.location.href = document.baseURI + '#' + id
+
+                setHash(id)
+                #hash = fetch('hash')
+                #hash.val = id
+                #save(hash)
+                #party = fetch('/' + id)
+            BUTTON
+                className: 'home_button'
+                'Create a party →'
 
 </script>
 <script src="https://stateb.us/client6.js"></script>
