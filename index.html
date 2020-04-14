@@ -1,0 +1,86 @@
+<script type="coffee">
+
+questions = [
+    "What is 'the moon'?",
+    "What's your favorite animal?",
+    "Have you named your genitals?",
+    "What is your alter ego?",
+    "How do you predict you will die?",
+    "What don't you know about yourself?",
+    "When was the last time you did something for the first time?",
+    "Who is your arch-nemesis?",
+    "What are you the patron saint of?"
+    ]
+
+getRandomInt = (max) ->
+    Math.floor(Math.random() * Math.floor(max))
+
+getDifferentRandomInt = (max, cur) ->
+    n = getRandomInt(max)
+    while n == cur
+        n = getRandomInt(max)
+    n
+
+# todo: set hash as a state variable
+
+if window.location.hash
+
+    hash = window.location.hash.substring(1)
+
+    state = fetch('/'+hash)
+
+    if state == undefined
+        state = {}
+        save(state)
+
+    dom.HELLO = ->
+        H1('You are in ASKHOLE ePARTY ROOM: ' + hash)
+
+    dom.QUESTION = ->
+        fetch(state)
+        question = questions[state.question_number]
+        DIV {},
+            '#' + (state.question_number+1) + ': '
+            question
+
+    dom.NEXT = ->
+        BUTTON
+            onClick: =>
+                state.question_number =
+                    getDifferentRandomInt(questions.length, state.question_number)
+                save(state)
+            'next question'
+
+    dom.BODY = ->
+        DIV {},
+            dom.HELLO()
+            dom.QUESTION()
+            dom.NEXT()
+
+else
+    dom.BODY = ->
+        DIV {className: 'home_welcome'},
+            DIV {className: 'home_title'},
+                SPAN('PLAY WITH FRIENDS')
+            DIV {className: 'home_cover'}
+            DIV {className: 'home_form'},
+                FORM {},
+                    onSubmit: =>
+                        window.location.href = document.baseURI + '#abc'
+                        return false
+                    INPUT
+                        className: 'home_input'
+                        width: '200'
+                        type: 'text'
+                        placeholder: 'JellyfishJuicebox'
+                    INPUT
+                        className: 'home_button'
+                        type: 'submit'
+                        value: 'Join →'
+
+</script>
+<script src="https://stateb.us/client6.js"></script>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
+<link rel='stylesheet' href='common.css'>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
