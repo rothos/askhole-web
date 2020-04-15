@@ -184,6 +184,15 @@ generateId = (len) ->
 # State variables.
 hash = fetch('hash')
 party = {}
+client = fetch('client')
+
+# Initialize viewport sizes.
+width = window.visualViewport.width
+height = window.visualViewport.height
+client = fetch('client')
+client.width = width
+client.height = height
+save(client)
 
 # Set the party hash.
 setHash = (str) ->
@@ -248,6 +257,7 @@ dom.HEADER = (text) ->
         SPAN(text)
 
 dom.QUESTION = ->
+    client = fetch('client')
     hash = fetch('hash')
     party = fetch('/' + hash.val)
     n = party.question_number
@@ -258,7 +268,7 @@ dom.QUESTION = ->
 
     question = questions[n] || ''
     number = (n+1) || ''
-    cardtext = '[loading…]'
+    cardtext = '[loading...]'
     if !loading()
         cardtext = '#' + number + ': ' + question
 
@@ -267,21 +277,39 @@ dom.QUESTION = ->
                 className: 'party_card',
                 onClick: newQuestion
             },
-            DIV {className: 'party_cardtext'},
+            DIV {
+                    className: 'party_cardtext',
+                    id: 'card',
+                    style: {fontSize: getCardFontSize()}
+                },
                 cardtext
+
+
+getCardFontSize = ->
+    client = fetch('client')
+    fontsize = (client.width * client.height / 14000).toFixed(1)
+    return fontsize + 'px'
+
+onViewportSizeChange = (e) ->
+    width = window.visualViewport.width
+    height = window.visualViewport.height
+
+    client = fetch('client')
+    client.width = width
+    client.height = height
+    save(client)
+
+    fontsize = getCardFontSize()
+    document.getElementById('card').style.fontSize = fontsize
+    return true
+
+window.visualViewport.addEventListener('resize', onViewportSizeChange)
 
 
 # Keyboard shortcuts for turning over a new question.
 window.onkeydown = (e) ->
     if e.which in [13,32,39]
         newQuestion()
-
-# Check for new updates every second, just in case.
-checkForUpdates = ->
-    hash = fetch('hash')
-    party = fetch('/' + hash.val)
-    LOADPAGE()
-window.setInterval(checkForUpdates, 1000)
 
 # Reload the page whenever the URL hash changes.
 window.onhashchange = -> LOADPAGE()

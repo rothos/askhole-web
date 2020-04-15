@@ -70,9 +70,10 @@ label {
     display: flex;
     flex-grow: 1;
     align-items: center;
+    margin: 2em;
 }
     .party_card {
-        width: 70%;
+        width: 100%;
         max-width: 600px;
         margin: 0 auto;
         padding: 2.5em 3em;
@@ -88,3 +89,11 @@ label {
             font-size: 3em;
             line-height: 1.2;
         }
+
+
+/* Larger than tablet */
+@media (max-device-width: 750px) {
+    .party_cardtext {
+        /*font-size: 4em;*/
+    }
+}
