@@ -1,11 +1,12 @@
 <script type="coffee">
 
 # TODO
-# - askhole.io + telegram + donate links
-# - some copy explaining the thing
+# - askhole.io + telegram + donate + github links
+# - some copy explaining the thing (inc. keyboard shortcuts)
 # - "invite friends" with way to copy URL to clipboard
 # - make mobile pretty
 # - bigger question lists
+# - ...animations?
 # - make more fun IDs (noun concat)
 # - beautiful typography
 # - dark/light themes
@@ -141,7 +142,6 @@ questions = [
     "Is bestiality wrong? Are you a vegan?"
     ]
 
-
 questions_extended = [
     "What is 'the moon'?",
     "What's your favorite animal?",
@@ -259,7 +259,7 @@ dom.QUESTION = ->
     question = questions[n] || ''
     number = (n+1) || ''
     cardtext = '[loading…]'
-    if question && number
+    if !loading()
         cardtext = '#' + number + ': ' + question
 
     DIV {className: 'party_wrap'},
@@ -275,6 +275,13 @@ dom.QUESTION = ->
 window.onkeydown = (e) ->
     if e.which in [13,32,39]
         newQuestion()
+
+# Check for new updates every second, just in case.
+checkForUpdates = ->
+    hash = fetch('hash')
+    party = fetch('/' + hash.val)
+    LOADPAGE()
+window.setInterval(checkForUpdates, 1000)
 
 # Reload the page whenever the URL hash changes.
 window.onhashchange = -> LOADPAGE()
