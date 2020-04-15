@@ -9,6 +9,7 @@
 # - some copy explaining the thing
 # - "invite friends" with way to copy URL to clipboard
 # - keyboard shortcuts
+# - analytics
 
 
 #--- COMMON ---#
@@ -17,7 +18,7 @@ questions = [
     "What is 'the moon'?",
     "What's your favorite animal?",
     "Have you named your genitals?",
-    "What is your alter ego?",
+    "Who is your alter ego?",
     "How do you predict you will die?",
     "What don't you know about yourself?",
     "When was the last time you did something for the first time?",
@@ -88,20 +89,18 @@ LOADPAGE = ->
 
 
 PARTY_PAGE = ->
-
     DIV {className: 'bgwhirl'},
-        HEADER text: 'PLAY WITH FRIENDS'
+        HEADER text: 'ASKHOLE: PLAY WITH FRIENDS'
         QUESTION()
 
 
 
 LANDING_PAGE = ->
 
-    # TODO: Why is this necessary? It was done above. Scope issue?
     hash = fetch('hash')
 
     DIV {className: 'home_welcome'},
-        HEADER text: 'PLAY WITH FRIENDS'
+        HEADER text: 'ASKHOLE: PLAY WITH FRIENDS'
         DIV {className: 'landing_hero'}
         DIV {className: 'home_form'},
             onClick: =>
@@ -111,6 +110,7 @@ LANDING_PAGE = ->
             BUTTON
                 className: 'home_button'
                 'create a party →'
+
 
 
 dom.HEADER = (text) ->
@@ -153,6 +153,9 @@ LOADPAGE()
 
 </script>
 <script src="https://stateb.us/client6.js" server='state://invisible.college'></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138298500-2"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
 <link rel='stylesheet' href='common.css'>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap" rel="stylesheet">
