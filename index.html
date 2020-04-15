@@ -1,5 +1,16 @@
 <script type="coffee">
 
+# TODO
+# - make more fun IDs (noun concat)
+# - make mobile pretty
+# - question lists
+# - dark/light themes
+# - askhole.io + telegram links
+# - some copy explaining the thing
+# - "invite friends" with way to copy URL to clipboard
+# - keyboard shortcuts
+
+
 #--- COMMON ---#
 
 questions = [
@@ -78,34 +89,9 @@ LOADPAGE = ->
 
 PARTY_PAGE = ->
 
-    # TODO: Why is this necessary? It was done above. Scope issue?
-    party = fetch('/' + hash.val)
-
-    if !party.question_number
-        party.question_number = getRandomInt(questions.length)
-        save(party)
-
-    dom.HELLO = ->
-        H3('You are in ASKHOLE ePARTY ROOM: ' + hash.val)
-
-    dom.QUESTION = ->
-        question = questions[party.question_number]
-        DIV {},
-            '#' + (party.question_number+1) + ': '
-            question
-
-    dom.NEXT = ->
-        BUTTON
-            onClick: =>
-                party.question_number =
-                    getDifferentRandomInt(questions.length, party.question_number)
-                save(party)
-            'next question'
-
-    DIV {},
-        dom.HELLO()
-        dom.QUESTION()
-        dom.NEXT()
+    DIV {className: 'bgwhirl'},
+        HEADER text: 'PLAY WITH FRIENDS'
+        QUESTION()
 
 
 
@@ -115,9 +101,8 @@ LANDING_PAGE = ->
     hash = fetch('hash')
 
     DIV {className: 'home_welcome'},
-        DIV {className: 'home_title'},
-            SPAN('PLAY WITH FRIENDS')
-        DIV {className: 'home_cover'}
+        HEADER text: 'PLAY WITH FRIENDS'
+        DIV {className: 'landing_hero'}
         DIV {className: 'home_form'},
             onClick: =>
                 id = generateId(10)
@@ -125,7 +110,38 @@ LANDING_PAGE = ->
                 setHash(id)
             BUTTON
                 className: 'home_button'
-                'Create a party →'
+                'create a party →'
+
+
+dom.HEADER = (text) ->
+    DIV {className: 'header'},
+        SPAN(text)
+
+dom.QUESTION = ->
+    hash = fetch('hash')
+    party = fetch('/' + hash.val)
+    n = party.question_number
+
+    if !n
+        party.question_number = getRandomInt(questions.length)
+        save(party)
+
+    question = questions[n] || ''
+    number = (n+1) || ''
+    cardtext = '[loading…]'
+    if question && number
+        cardtext = '#' + number + ': ' + question
+
+    DIV {className: 'party_wrap'},
+        DIV {
+                className: 'party_card',
+                onClick: =>
+                    party.question_number =
+                        getDifferentRandomInt(questions.length, n)
+                    save(party)
+            },
+            DIV {className: 'party_cardtext'},
+                cardtext
 
 
 
