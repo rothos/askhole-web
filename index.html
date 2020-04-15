@@ -50,18 +50,29 @@ party = {}
 setHash = (str) ->
     hash.val = str
     save(hash)
-    party = fetch('/' + hash.val)
 
-# Are we in a party?
-if window.location.hash
+    if hash.val.length
+        party = fetch('/' + hash.val)
+    else
+        party = {}
+
+
+
+LOADPAGE = ->
+
+    # Are we in a party?
     str = window.location.hash.substring(1)
     setHash(str)
 
-dom.BODY = ->
-    if hash.val
-        PARTY_PAGE()
-    else
-        LANDING_PAGE()
+    dom.BODY = ->
+        hash = fetch('hash')
+        DIV {},
+            if hash.val
+                PARTY_PAGE()
+            else
+                LANDING_PAGE()
+
+    return true
 
 
 
@@ -111,15 +122,18 @@ LANDING_PAGE = ->
             onClick: =>
                 id = generateId(10)
                 window.location.href = document.baseURI + '#' + id
-
                 setHash(id)
-                #hash = fetch('hash')
-                #hash.val = id
-                #save(hash)
-                #party = fetch('/' + id)
             BUTTON
                 className: 'home_button'
                 'Create a party →'
+
+
+
+# Reload the page whenever the URL hash changes.
+window.onhashchange = -> LOADPAGE()
+
+# Kickoff.
+LOADPAGE()
 
 </script>
 <script src="https://stateb.us/client6.js"></script>
