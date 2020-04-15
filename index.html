@@ -78,7 +78,7 @@ LOADPAGE = ->
 
     dom.BODY = ->
         hash = fetch('hash')
-        DIV {},
+        DIV {className: 'wrap'},
             if hash.val
                 PARTY_PAGE()
             else

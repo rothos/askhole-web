@@ -6,6 +6,9 @@ html, body {
     width: 100%;
 }
 
+.wrap {
+    height: 100%;
+}
 
 .header {
     padding: .5em .75em;
@@ -71,7 +74,6 @@ label {
     .party_card {
         width: 70%;
         max-width: 600px;
-        height: 100%;
         margin: 0 auto;
         padding: 2.5em 3em;
         background-color: #fcfcfc;
