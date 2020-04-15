@@ -1,15 +1,14 @@
 <script type="coffee">
 
 # TODO
-# - make more fun IDs (noun concat)
-# - make mobile pretty
-# - question lists
-# - dark/light themes
-# - askhole.io + telegram links
+# - askhole.io + telegram + donate links
 # - some copy explaining the thing
 # - "invite friends" with way to copy URL to clipboard
-# - keyboard shortcuts
-# - analytics
+# - make mobile pretty
+# - bigger question lists
+# - make more fun IDs (noun concat)
+# - beautiful typography
+# - dark/light themes
 
 
 #--- COMMON ---#
@@ -196,6 +195,15 @@ setHash = (str) ->
     else
         party = {}
 
+newQuestion = ->
+    hash = fetch('hash')
+    party = fetch('/' + hash.val)
+    n = party.question_number
+    party.question_number =
+        getDifferentRandomInt(questions.length, n)
+    save(party)
+
+    return true
 
 LOADPAGE = ->
     # Are we in a party?
@@ -257,14 +265,16 @@ dom.QUESTION = ->
     DIV {className: 'party_wrap'},
         DIV {
                 className: 'party_card',
-                onClick: =>
-                    party.question_number =
-                        getDifferentRandomInt(questions.length, n)
-                    save(party)
+                onClick: newQuestion
             },
             DIV {className: 'party_cardtext'},
                 cardtext
 
+
+# Keyboard shortcuts for turning over a new question.
+window.onkeydown = (e) ->
+    if e.which in [13,32,39]
+        newQuestion()
 
 # Reload the page whenever the URL hash changes.
 window.onhashchange = -> LOADPAGE()
