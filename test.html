@@ -305,7 +305,7 @@ dom.QUESTION = ->
 getCardFontSize = (length) ->
     client = fetch('client')
     length_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
-    device_const = if Math.max(client.width, client.height) > 750 then 1 else 2
+    device_const = if Math.max(client.width, client.height) > 820 then 1 else 2
     fontsize = (device_const * (client.width) * (client.height) / 18000 / length_const).toFixed(1)
     return fontsize + 'px'
 
