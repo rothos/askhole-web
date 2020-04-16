@@ -299,6 +299,7 @@ dom.QUESTION = ->
 # THIS MIGHT BE USEFUL
 #window.matchMedia("(orientation: portrait)").matches
 
+# Calculate the card font size.
 getCardFontSize = (length) ->
     client = fetch('client')
     length_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
@@ -306,14 +307,18 @@ getCardFontSize = (length) ->
     fontsize = (device_const * (client.width) * (client.height) / 18000 / length_const).toFixed(1)
     return fontsize + 'px'
 
+# The screen resize handler.
 onViewportSizeChange = (e) ->
     client = fetch('client')
     [client.width, client.height] = getScreenSize()
     save(client)
     return true
 
-window.visualViewport.addEventListener('resize', onViewportSizeChange)
-
+# Add an event listener for screen resize.
+if window.visualViewport?
+    window.visualViewport.addEventListener('resize', onViewportSizeChange)
+else
+    window.addEventListener('resize', onViewportSizeChange)
 
 # Keyboard shortcuts for turning over a new question.
 window.onkeydown = (e) ->
