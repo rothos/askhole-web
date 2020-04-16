@@ -203,6 +203,7 @@ save(client)
 
 # Set the party hash.
 setHash = (str) ->
+    hash = fetch('hash')
     hash.val = str
     save(hash)
 
@@ -218,22 +219,6 @@ newQuestion = ->
         getDifferentRandomInt(questions.length, n)
     save(party)
     return true
-
-LOADPAGE = ->
-    # Are we in a party?
-    str = window.location.hash.substring(1)
-    setHash(str)
-
-    dom.BODY = ->
-        hash = fetch('hash')
-        DIV {className: 'wrap'},
-            if hash.val
-                PARTY_PAGE()
-            else
-                LANDING_PAGE()
-
-    return true
-
 
 PARTY_PAGE = ->
     DIV {className: 'bgwhirl'},
@@ -255,6 +240,17 @@ LANDING_PAGE = ->
             BUTTON
                 className: 'home_button'
                 'create a party →'
+
+dom.BODY = ->
+    str = window.location.hash.substring(1)
+    setHash(str)
+
+    hash = fetch('hash')
+    DIV {className: 'wrap'},
+        if hash.val
+            PARTY_PAGE()
+        else
+            LANDING_PAGE()
 
 
 dom.HEADER = (text) ->
@@ -290,27 +286,42 @@ dom.QUESTION = ->
             DIV {
                     className: 'party_cardtext',
                     id: 'card',
-                    style: {fontSize: getCardFontSize()}
+                    style: {fontSize: getCardFontSize(question.length)}
                 },
                 cardtext
 
 
-getCardFontSize = ->
+# THIS MIGHT BE USEFUL
+#window.matchMedia("(orientation: portrait)").matches
+
+getCardFontSize = (length) ->
     client = fetch('client')
-    fontsize = (client.width * client.height / 14000).toFixed(1)
+    length_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
+    fontsize = ((client.width+500) * (client.height*3) / 80000 / length_const).toFixed(1)
     return fontsize + 'px'
 
 onViewportSizeChange = (e) ->
-    width = window.visualViewport.width
-    height = window.visualViewport.height
+    width = Math.min(window.visualViewport.width, window.screen.width)
+    height = Math.min(window.visualViewport.height, window.screen.height)
 
     client = fetch('client')
-    client.width = width
-    client.height = height
+    client.width = width#*window.visualViewport.scale
+    client.height = height#*window.visualViewport.scale
     save(client)
 
-    fontsize = getCardFontSize()
+    hash = fetch('hash')
+    party = fetch('/' + hash.val)
+    qlength = if party.question_number then questions[party.question_number].length else 10
+
+    fontsize = getCardFontSize(qlength)
     document.getElementById('card').style.fontSize = fontsize
+
+    console.log({
+        width: width,
+        height: height,
+        fontsize: fontsize
+        })
+
     return true
 
 window.visualViewport.addEventListener('resize', onViewportSizeChange)
@@ -322,10 +333,8 @@ window.onkeydown = (e) ->
         newQuestion()
 
 # Reload the page whenever the URL hash changes.
-window.onhashchange = -> LOADPAGE()
+window.onhashchange = -> dom.BODY()
 
-# Kickoff.
-LOADPAGE()
 
 </script>
 <script src="https://stateb.us/client6.js" server='state://invisible.college'></script>
