@@ -281,6 +281,7 @@ dom.QUESTION = ->
     client = fetch('client')
     width = client.width
     height = client.height
+    fontsize = client.fontsize
 
     DIV {className: 'party_wrap'},
         DIV {
@@ -292,7 +293,7 @@ dom.QUESTION = ->
                     id: 'card',
                     style: {fontSize: getCardFontSize(question.length)}
                 },
-                JSON.stringify({'width': width, 'height': height}) + ' // ' + cardtext
+                JSON.stringify({'width': width, 'height': height, 'fontsize': fontsize}) + ' // ' + cardtext
 
 
 # THIS MIGHT BE USEFUL
@@ -309,17 +310,18 @@ onViewportSizeChange = (e) ->
     width = Math.min(window.visualViewport.width, window.screen.width)
     height = Math.min(window.visualViewport.height, window.screen.height)
 
-    client = fetch('client')
-    client.width = width
-    client.height = height
-    save(client)
-
     hash = fetch('hash')
     party = fetch('/' + hash.val)
     qlength = if party.question_number then questions[party.question_number].length else 10
 
     fontsize = getCardFontSize(qlength)
     document.getElementById('card').style.fontSize = fontsize
+
+    client = fetch('client')
+    client.width = width
+    client.height = height
+    client.fontsize = fontsize
+    save(client)
 
     # console.log({
     #     width: width,
