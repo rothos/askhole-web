@@ -194,10 +194,8 @@ get_party = ->
         return {}
 
 # Initialize viewport sizes.
-# width = Math.min(window.visualViewport.width, window.screen.width)
-# height = Math.min(window.visualViewport.height, window.screen.height)
-width = window.visualViewport.width
-height = window.visualViewport.height
+width = Math.min(window.visualViewport.width, window.screen.width)
+height = Math.min(window.visualViewport.height, window.screen.height)
 
 client = fetch('client')
 client.width = width
@@ -281,11 +279,6 @@ dom.QUESTION = ->
     if !loading()
         cardtext = '#' + number + ': ' + question
 
-    client = fetch('client')
-    width = client.width
-    height = client.height
-    fontsize = client.fontsize
-
     DIV {className: 'party_wrap'},
         DIV {
                 className: 'party_card',
@@ -296,7 +289,7 @@ dom.QUESTION = ->
                     id: 'card',
                     style: {fontSize: getCardFontSize(question.length)}
                 },
-                JSON.stringify({'width': width, 'height': height, 'fontsize': fontsize}) + ' // ' + cardtext
+                cardtext
 
 
 # THIS MIGHT BE USEFUL
@@ -305,34 +298,19 @@ dom.QUESTION = ->
 getCardFontSize = (length) ->
     client = fetch('client')
     length_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
-    device_const = if Math.max(client.width, client.height) > 820 then 1 else 2
+    device_const = if Math.min(client.width, client.height) < 500 then 2 else 1
     fontsize = (device_const * (client.width) * (client.height) / 18000 / length_const).toFixed(1)
+
     return fontsize + 'px'
 
 onViewportSizeChange = (e) ->
-    # width = Math.min(window.visualViewport.width, window.screen.width)
-    # height = Math.min(window.visualViewport.height, window.screen.height)
-    width = window.visualViewport.width
-    height = window.visualViewport.height
-
-    hash = fetch('hash')
-    party = fetch('/' + hash.val)
-    qlength = if party.question_number then questions[party.question_number].length else 10
-
-    fontsize = getCardFontSize(qlength)
-    document.getElementById('card').style.fontSize = fontsize
+    width = Math.min(window.visualViewport.width, window.screen.width)
+    height = Math.min(window.visualViewport.height, window.screen.height)
 
     client = fetch('client')
     client.width = width
     client.height = height
-    client.fontsize = fontsize
     save(client)
-
-    # console.log({
-    #     width: width,
-    #     height: height,
-    #     fontsize: fontsize
-    #     })
 
     return true
 
