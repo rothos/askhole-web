@@ -4,6 +4,7 @@
 # - askhole.io + telegram + donate + github links
 # - some copy explaining the thing (inc. keyboard shortcuts)
 # - "invite friends" with way to copy URL to clipboard
+# - "tweet this question" below card
 # - bigger question lists
 # - ...animations?
 # - make more fun IDs (noun concat)
@@ -12,6 +13,7 @@
 
 # BUGS
 # - Font doesn't autoresize on Firefox [Macbook Air]
+# - Zooming (including pinch-zooming) screws up font size
 
 
 #--- COMMON ---#
@@ -229,7 +231,7 @@ newQuestion = ->
 
 PARTY_PAGE = ->
     DIV {className: 'bgwhirl'},
-        HEADER text: 'ASKHOLE: PLAY WITH FRIENDS'
+        HEADER()
         QUESTION()
 
 
@@ -237,7 +239,7 @@ LANDING_PAGE = ->
     hash = fetch('hash')
 
     DIV {className: 'home_welcome'},
-        HEADER text: 'ASKHOLE: PLAY WITH FRIENDS'
+        HEADER()
         DIV {className: 'landing_hero'}
         DIV {className: 'home_form'},
             onClick: =>
@@ -260,7 +262,7 @@ dom.BODY = ->
             LANDING_PAGE()
 
 
-dom.HEADER = (text) ->
+dom.HEADER = ->
     DIV {className: 'header'},
         # # Asterisk logo before "Askhole"
         # SPAN {
@@ -272,7 +274,20 @@ dom.HEADER = (text) ->
         #         }
         #     },
         #     A {href:'/'}, '*'
-        SPAN(text)
+        DIV { className: 'header_wordmark' },
+                SPAN('ASKHOLE WEB ')
+                SPAN { className: 'header_by' },
+                    'by '
+                    A {
+                        href: 'https://askhole.io',
+                        target: '_blank'
+                        },
+                        'askhole.io'
+        DIV { className: 'header_links' },
+            A {
+                className: 'tg',
+                href: "https://t.me/askholecards"
+            }
 
 dom.QUESTION = ->
     party = get_party()

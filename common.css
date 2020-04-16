@@ -12,13 +12,37 @@ html, body {
 
 .header {
     padding: .5em .75em;
-    text-align: center;
+    text-align: left;
     font-family: 'Permanent Marker', cursive;
     font-size: 1.5em;
     line-height: 1;
     color: #272727;
     background-color: #fff;
+    display: flex;
+    justify-content: space-between;
 }
+    .header_wordmark {
+        flex-grow: 0;
+
+    }
+        .header_by {
+            font-family: 'Lato', sans-serif;
+            font-weight: bold;
+            font-size: .6em;
+        }
+    .header_links {
+        flex-grow: 0;
+        align-self: center;
+    }
+        .tg {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url("tg.png");
+            background-position: 50% 50%;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
 
 
 .home_welcome {}
@@ -93,9 +117,13 @@ label {
 
 
 
-/* Larger than tablet */
+/* Larger than ~tablet */
 @media (min-width: 850px) {
     .header {
-        font-size: 3em;
+        font-size: 2.5em;
+    }
+    .tg {
+        width: 32px;
+        height: 32px;
     }
 }
