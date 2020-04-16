@@ -186,6 +186,13 @@ hash = fetch('hash')
 party = {}
 client = fetch('client')
 
+get_party = ->
+    hash = fetch('hash').val
+    if hash
+        return fetch('/' + hash)
+    else
+        return {}
+
 # Initialize viewport sizes.
 width = window.visualViewport.width
 height = window.visualViewport.height
@@ -205,13 +212,11 @@ setHash = (str) ->
         party = {}
 
 newQuestion = ->
-    hash = fetch('hash')
-    party = fetch('/' + hash.val)
+    party = get_party()
     n = party.question_number
     party.question_number =
         getDifferentRandomInt(questions.length, n)
     save(party)
-
     return true
 
 LOADPAGE = ->
@@ -254,17 +259,22 @@ LANDING_PAGE = ->
 
 dom.HEADER = (text) ->
     DIV {className: 'header'},
+        # # Asterisk logo before "Askhole"
+        # SPAN {
+        #     style: {
+        #         fontSize: '1.5em',
+        #         position: 'relative',
+        #         top: '.25em',
+        #         marginRight: '.2em'
+        #         }
+        #     },
+        #     A {href:'/'}, '*'
         SPAN(text)
 
 dom.QUESTION = ->
-    client = fetch('client')
-    hash = fetch('hash')
-    party = fetch('/' + hash.val)
+    party = get_party()
     n = party.question_number
-
-    if !n
-        party.question_number = getRandomInt(questions.length)
-        save(party)
+    if !n then newQuestion()
 
     question = questions[n] || ''
     number = (n+1) || ''
