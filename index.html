@@ -473,9 +473,11 @@ dom.QUESTION = ->
 # Calculate the card font size.
 getCardFontSize = (length) ->
     client = fetch('client')
-    length_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
+    qlength_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
     device_const = if Math.min(client.width, client.height) < 500 then 1.25 else 1
-    fontsize = (device_const * Math.sqrt((client.width) * (client.height)) / 20 / length_const).toFixed(1)
+    resolution_const = Math.sqrt((client.width) * (client.height))
+    fontsize = (device_const * resolution_const / qlength_const / 20).toFixed(1)
+    if fontsize > 60 then fontsize = 60
     return fontsize + 'px'
 
 # The screen resize handler.
