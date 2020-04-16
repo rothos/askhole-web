@@ -194,8 +194,8 @@ get_party = ->
         return {}
 
 # Initialize viewport sizes.
-width = window.visualViewport.width
-height = window.visualViewport.height
+width = Math.min(window.visualViewport.width, window.screen.width)
+height = Math.min(window.visualViewport.height, window.screen.height)
 client = fetch('client')
 client.width = width
 client.height = height
@@ -297,7 +297,8 @@ dom.QUESTION = ->
 getCardFontSize = (length) ->
     client = fetch('client')
     length_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
-    fontsize = ((client.width+500) * (client.height*3) / 80000 / length_const).toFixed(1)
+    device_const = if Math.max(client.width, client.height) > 750 then 1 else 2
+    fontsize = (device_const * (client.width) * (client.height) / 18000 / length_const).toFixed(1)
     return fontsize + 'px'
 
 onViewportSizeChange = (e) ->
@@ -305,8 +306,8 @@ onViewportSizeChange = (e) ->
     height = Math.min(window.visualViewport.height, window.screen.height)
 
     client = fetch('client')
-    client.width = width#*window.visualViewport.scale
-    client.height = height#*window.visualViewport.scale
+    client.width = width
+    client.height = height
     save(client)
 
     hash = fetch('hash')
@@ -316,11 +317,11 @@ onViewportSizeChange = (e) ->
     fontsize = getCardFontSize(qlength)
     document.getElementById('card').style.fontSize = fontsize
 
-    console.log({
-        width: width,
-        height: height,
-        fontsize: fontsize
-        })
+    # console.log({
+    #     width: width,
+    #     height: height,
+    #     fontsize: fontsize
+    #     })
 
     return true
 
@@ -345,3 +346,4 @@ gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link rel='stylesheet' href='common.css'>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width; initial-scale=1.0;">
