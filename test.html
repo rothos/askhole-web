@@ -194,8 +194,11 @@ get_party = ->
         return {}
 
 # Initialize viewport sizes.
-width = Math.min(window.visualViewport.width, window.screen.width)
-height = Math.min(window.visualViewport.height, window.screen.height)
+# width = Math.min(window.visualViewport.width, window.screen.width)
+# height = Math.min(window.visualViewport.height, window.screen.height)
+width = window.visualViewport.width
+height = window.visualViewport.height
+
 client = fetch('client')
 client.width = width
 client.height = height
@@ -307,8 +310,10 @@ getCardFontSize = (length) ->
     return fontsize + 'px'
 
 onViewportSizeChange = (e) ->
-    width = Math.min(window.visualViewport.width, window.screen.width)
-    height = Math.min(window.visualViewport.height, window.screen.height)
+    # width = Math.min(window.visualViewport.width, window.screen.width)
+    # height = Math.min(window.visualViewport.height, window.screen.height)
+    width = window.visualViewport.width
+    height = window.visualViewport.height
 
     hash = fetch('hash')
     party = fetch('/' + hash.val)
