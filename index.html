@@ -343,6 +343,14 @@ HELP_MODAL = ->
                         id: 'modal-1-title'
                         },
                         "How do I work this thing?"
+                    P {},
+                        "Click on the card to proceed to the next one. When the
+                        question changes, it changes for "
+                        EM "everyone"
+                        " who is in the room (everyone who is visiting your
+                        URL). That's about all there is to it."
+                    P  "(More functionality will likely be added in the
+                        future, but for now that's all we got.)"
                     P "Keyboard shortcuts:"
                     P {},
                         CODE "<enter>"
@@ -352,6 +360,21 @@ HELP_MODAL = ->
                         BR()
                         CODE "?"
                         ": Open this help window."
+                    H2 {
+                        className: "modal__title",
+                        id: 'modal-1-title'
+                        },
+                        "Something isn't exactly the way I want it"
+                    P "Boo fuckin hoo."
+                    P {},
+                        "You can "
+                        A { href: "mailto:askholecontact@gmail.com", target: "_blank" }, "send us an email"
+                        ", "
+                        A { href: "//t.me/askholecards", target: "_blank" }, "drop us a line on Telegram"
+                        ", or "
+                        A { href: "//github.com/rothos/askhole-web", target: "_blank" }, "check out the Github repo"
+                        " to contact us with any suggestions, feature requests, bug reports,
+                        surreal experiences, come-ons, etc."
                     H2 {
                         className: "modal__title",
                         id: 'modal-1-title'
@@ -375,6 +398,8 @@ HELP_MODAL = ->
                         It also makes use of the fantastic 
                         """
                         A { href: '//micromodal.now.sh', target: "_blank" }, "Micromodal.js"
+                        " and "
+                        A { href: '//http://getskeleton.com/', target: "_blank" }, "Skeleton.css"
                         "."
 
 dom.BODY = ->
