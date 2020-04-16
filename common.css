@@ -45,6 +45,24 @@ html, body {
         }
 
 
+.help_icon {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    width: 50px;
+    height: 50px;
+    background-image: url("help.png");
+    background-position: 50% 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+    p {
+        margin-top: 1em;
+        margin-bottom: 1em;
+    }
+
+
 .home_welcome {}
 .landing_hero {
     background: url("cover.jpg") center no-repeat;

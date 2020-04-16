@@ -231,7 +231,7 @@ newQuestion = ->
 
 PARTY_PAGE = ->
     DIV {className: 'bgwhirl'},
-        HEADER()
+        PAGE_HEADER()
         QUESTION()
 
 
@@ -239,7 +239,7 @@ LANDING_PAGE = ->
     hash = fetch('hash')
 
     DIV {className: 'home_welcome'},
-        HEADER()
+        PAGE_HEADER()
         DIV {className: 'landing_hero'}
         DIV {className: 'home_form'},
             onClick: =>
@@ -249,6 +249,133 @@ LANDING_PAGE = ->
             BUTTON
                 className: 'home_button'
                 'create a party →'
+
+HELP_ICON = ->
+    SPAN {
+            className: "help_icon",
+            "data-micromodal-trigger": "modal-1",
+            onClick: => MicroModal.show("modal-1")
+        }
+
+
+HELP_MODAL = ->
+    DIV {
+            className: "modal micromodal-slide",
+            id: "modal-1",
+            "aria-hidden": "true"
+        },
+        DIV {
+                className: "modal__overlay",
+                tabIndex: "-1",
+                "data-micromodal-close": ""
+            },
+            DIV {
+                    className: "modal__container",
+                    role: "dialog",
+                    "aria-modal": "true",
+                    "aria-labelledby": "modal-1-title"
+                },
+                HEADER { className: "modal__header" },
+                    H2 {
+                        className: "modal__title",
+                        id: 'modal-1-title'
+                        },
+                        "What the f is this?"
+                    BUTTON {
+                        className: "modal__close",
+                        "aria-label": 'Close modal',
+                        "data-micromodal-close": ""
+                    }
+                MAIN {
+                        className: "modal__content",
+                        id: "modal-1-content"
+                    },
+                    # P {},
+                    #     """
+                    #     The abyss of loneliness, all too familiar to one like you.
+                    #     """
+                    P {},
+                        """
+                        Askhole Web is a web version of the 
+                        """
+                        A { href: 'askhole.io', target: "_blank" }, "terrible game you know and love"
+                        """.
+                        Traditionally, a physical deck of Askhole is used to ruin
+                        house parties and family reunions, but now Askhole Web can be used
+                        to ruin videochats and conference calls.
+                        """
+                    H2 {
+                        className: "modal__title",
+                        id: 'modal-1-title'
+                        },
+                        "Gimme the rundown"
+                    P {},
+                        """
+                        When you visit 
+                        """
+                        A { href: "web.askhole.io", target: "_blank" }, "web.askhole.io"
+                        " "
+                        """
+                        and click the "Create a Party" button, you'll be taken
+                        to a new Askhole Web "chat room". Now this so-called
+                        "chat room" doesn't have any chat functionality, and nor
+                        is it a room, but what it does do is automatically
+                        synchronize the question that is displayed with anyone
+                        else who is also visiting the same URL.
+                        """
+                    P {},
+                        """
+                        So, if you're on a conference call or a group
+                        videochat, you can share an Askhole Web link with all
+                        your unlucky pals and remotely enjoy a good
+                        old-fashioned round of Askhole.
+                        """
+                    P {},
+                        """
+                        A well-formed Askhole Web URL is anything of the form 
+                        """
+                        CODE "web.askhole.io/#SomeTextString"
+                        "—you can put whatever you want after the"
+                        CODE "#"
+                        " to create a new room."
+                    H2 {
+                        className: "modal__title",
+                        id: 'modal-1-title'
+                        },
+                        "How do I work this thing?"
+                    P "Keyboard shortcuts:"
+                    P {},
+                        CODE "<enter>"
+                        " or "
+                        CODE "<space>"
+                        ": Proceed to the next card."
+                        BR()
+                        CODE "?"
+                        ": Open this help window."
+                    H2 {
+                        className: "modal__title",
+                        id: 'modal-1-title'
+                        },
+                        "Talk sexy to me"
+                    P {},
+                        """
+                        Askhole Web is built using 
+                        """
+                        A { href: 'stateb.us', target: "_blank" }, "Statebus"
+                        " (AKA "
+                        A { href: 'braid.news', target: "_blank" }, "Braid"
+                        """), a state-of-the-art synchronization
+                        technology which, if we're lucky, will soon
+                        (eventually) be added to the official HTTP standard.
+                        The app itself is written in delicious 
+                        """
+                        A { href: 'coffeescript.org/', target: "_blank" }, "CoffeeScript"
+                        ". "
+                        """
+                        It also makes use of the fantastic 
+                        """
+                        A { href: 'https://micromodal.now.sh/', target: "_blank" }, "Micromodal.js"
+                        "."
 
 dom.BODY = ->
     str = window.location.hash.substring(1)
@@ -260,9 +387,11 @@ dom.BODY = ->
             PARTY_PAGE()
         else
             LANDING_PAGE()
+        HELP_ICON()
+        HELP_MODAL()
 
 
-dom.HEADER = ->
+dom.PAGE_HEADER = ->
     DIV {className: 'header'},
         # # Asterisk logo before "Askhole"
         # SPAN {
@@ -275,11 +404,11 @@ dom.HEADER = ->
         #     },
         #     A {href:'/'}, '*'
         DIV { className: 'header_wordmark' },
-                SPAN('ASKHOLE WEB ')
+                SPAN { "data-micromodal-trigger": "modal-1" }, 'ASKHOLE WEB '
                 SPAN { className: 'header_by' },
                     'by '
                     A {
-                        href: 'https://askhole.io',
+                        href: 'askhole.io',
                         target: '_blank'
                         },
                         'askhole.io'
@@ -341,18 +470,22 @@ else
 window.onkeydown = (e) ->
     if e.which in [13,32,39]
         newQuestion()
+    if e.key in ["?"]
+        MicroModal.show("modal-1")
 
 # Reload the page whenever the URL hash changes.
 window.onhashchange = -> dom.BODY()
 
-
 </script>
 <script src="https://stateb.us/client6.js" server='state://invisible.college'></script>
+<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138298500-2"></script>
 <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css'>
 <link rel='stylesheet' href='common.css'>
+<link rel='stylesheet' href='micromodal.css'>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+<script type='text/javascript'>MicroModal.init({awaitCloseAnimation: true});</script>
