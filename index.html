@@ -1,10 +1,10 @@
 <script type="coffee">
 
 # TODO
-# - askhole.io + telegram + donate + github links
-# - some copy explaining the thing (inc. keyboard shortcuts)
 # - "invite friends" with way to copy URL to clipboard
+# - link back to homepage?
 # - "tweet this question" below card
+# - back button? question list?
 # - bigger question lists
 # - ...animations?
 # - make more fun IDs (noun concat)
@@ -12,7 +12,6 @@
 # - dark/light themes
 
 # BUGS
-# - Font doesn't autoresize on Firefox [Macbook Air]
 # - Zooming (including pinch-zooming) screws up font size
 
 
@@ -441,17 +440,26 @@ dom.QUESTION = ->
     if !loading()
         cardtext = '#' + number + ': ' + question
 
-    DIV {className: 'party_wrap'},
-        DIV {
-                className: 'party_card',
-                onClick: newQuestion
-            },
+    DIV { className: 'main_wrap' },
+        DIV { className: 'cardstuff_wrap' },
             DIV {
-                    className: 'party_cardtext',
-                    id: 'card',
-                    style: { fontSize: getCardFontSize(question.length) }
+                    className: 'party_card',
+                    onClick: newQuestion
                 },
-                cardtext
+                DIV {
+                        className: 'party_cardtext',
+                        id: 'card',
+                        style: { fontSize: getCardFontSize(question.length) }
+                    },
+                    cardtext
+            DIV { className: 'card_footer' },
+                A {
+                        className: 'twitterlink',
+                        href: "https://twitter.com/intent/tweet?text=" + encodeURIComponent(question + " #askhole")
+                        target: "_blank"
+                    },
+                    SPAN { className: 'twittericon' }
+                    SPAN { className: 'linktext' }, "Tweet this question"
 
 # Calculate the card font size.
 getCardFontSize = (length) ->

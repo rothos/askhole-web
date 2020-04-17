@@ -108,31 +108,68 @@ label {
 .bgwhirl, .bgwhirl > * {
     flex-shrink: 0;
 }
-.party_wrap {
+.main_wrap {
     display: flex;
     flex-grow: 1;
     align-items: center;
     margin: 2em;
 }
-    .party_card {
+    .cardstuff_wrap {
         width: 100%;
         max-width: 600px;
         margin: 0 auto;
-        padding: 2.5em 3em;
-        background-color: #fcfcfc;
-        border-radius: 18px;
-        cursor: pointer;
     }
-    .party_card:hover {
-        box-shadow: 5px
-    }
-        .party_cardtext {
-            text-align: left;
-            font-size: 3em;
-            line-height: 1.2;
-            word-break: break-word;
+        .party_card {
+            padding: 2.5em 3em;
+            background-color: #fcfcfc;
+            border-radius: 18px;
+            cursor: pointer;
         }
-
+            .party_card:hover {
+                box-shadow: 5px
+            }
+            .party_cardtext {
+                text-align: left;
+                font-size: 3em;
+                line-height: 1.2;
+                word-break: break-word;
+            }
+        .card_footer {
+            margin-top: .5em;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+            .twitterlink {
+                /*text-shadow: 0px 0px 5px #444;*/
+                font-size: 1.1em;
+                display: inline-flex;
+                align-items: center;
+                background-color: #fafafa;
+                border-radius: 1em;
+                /*padding: .2em;*/
+                text-decoration: none;
+            }
+                .twitterlink:hover {
+                    background-color: #fff;
+                }
+                .twitterlink .twittericon {
+                    display: inline-block;
+                    width: 1.5em;
+                    height: 1.5em;
+                    background-image: url('twitter.png');
+                    background-position: 50% 50%;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-color: #00aced;
+                    border-radius: .75em;
+                    margin: .2em 0 .2em .2em;
+                }
+                .twitterlink .linktext {
+                    padding: 0 .6em 0 .4em;
+                    position: relative;
+                    top: -1px;
+                }
 
 
 /* Larger than ~tablet */
