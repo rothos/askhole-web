@@ -452,8 +452,8 @@ dom.QUESTION = ->
     n = party.index
     order = party.order
 
-    question = if n then questions[order[n]] else ''
-    number = if n then '#'+(order[n]+1).toString() else ''
+    question = if n? then questions[order[n]] else ''
+    number = if n? then '#'+(order[n]+1).toString() else ''
     questiontext = if loading() then '[loading...]' else question
 
     DIV { className: 'main_wrap' },
