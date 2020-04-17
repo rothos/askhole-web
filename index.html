@@ -210,11 +210,30 @@ setHash = (str) ->
     else
         party = {}
 
-newQuestion = ->
+# Fisher-Yates algorithm
+shuffle = (arr) ->
+    a = bus.clone(arr)
+    for i in [a.length-1..1] by -1
+        j = Math.floor(Math.random() * (i + 1))
+        [a[i], a[j]] = [a[j], a[i]]
+    return a
+
+shuffleDeck = ->
     party = getParty()
-    n = party.question_number
-    party.question_number =
-        getDifferentRandomInt(questions.length, n)
+    party.order = shuffle([0..questions.length-1])
+    save(party)
+
+nextQuestion = ->
+    party = getParty()
+    len = questions.length
+    party.index = (party.index + 1 + len) % len
+    save(party)
+    return true
+
+prevQuestion = ->
+    party = getParty()
+    len = questions.length
+    party.index = (party.index - 1 + len) % len
     save(party)
     return true
 
@@ -431,11 +450,16 @@ dom.PAGE_HEADER = ->
 
 dom.QUESTION = ->
     party = getParty()
-    n = party.question_number
-    if !n then newQuestion()
 
-    question = questions[n] || ''
-    number = (n+1) || ''
+    party.index ?= 0
+    party.order ?= shuffle([questions.length-1..0])
+    save(party)
+
+    n = party.index
+    order = party.order
+
+    question = questions[order[n]] || ''
+    number = order[n]+1 || ''
     cardtext = '[loading...]'
     if !loading()
         cardtext = '#' + number + ': ' + question
@@ -444,7 +468,7 @@ dom.QUESTION = ->
         DIV { className: 'cardstuff_wrap' },
             DIV {
                     className: 'party_card',
-                    onClick: newQuestion
+                    onClick: nextQuestion
                 },
                 DIV {
                         className: 'party_cardtext',
@@ -489,10 +513,9 @@ window.addEventListener('DOMContentLoaded', onViewportSizeChange)
 
 # Keyboard shortcuts for turning over a new question.
 window.addEventListener('keydown', ( (e) ->
-    if e.which in [13,32,39]
-        newQuestion()
-    if e.key in ["?"]
-        MicroModal.show("modal-1")
+        if e.which in [13,32,39] then nextQuestion()
+        if e.which in [37,8] then prevQuestion()
+        if e.key in ["?"] then MicroModal.show("modal-1")
     )
 )
 
