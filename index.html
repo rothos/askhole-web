@@ -466,9 +466,14 @@ dom.QUESTION = ->
         cardtext = '#' + number + ': ' + question
 
     DIV { className: 'main_wrap' },
+        DIV {
+                className: 'backbutton',
+                onClick: prevQuestion
+            },
+            SPAN { className: 'dropshadow' }
         DIV { className: 'cardstuff_wrap' },
             DIV {
-                    className: 'party_card',
+                    className: 'party_card boxshadow',
                     onClick: nextQuestion
                 },
                 DIV {
@@ -479,7 +484,7 @@ dom.QUESTION = ->
                     cardtext
             DIV { className: 'card_footer' },
                 A {
-                        className: 'twitterlink',
+                        className: 'twitterlink boxshadow',
                         href: "https://twitter.com/intent/tweet?text=" + encodeURIComponent('"' + question + '" #AskholeQuestions')
                         target: "_blank"
                     },
