@@ -185,12 +185,7 @@ generateId = (len) ->
 
 #--- STATE ---#
 
-# State variables.
-hash = fetch('hash')
-party = {}
-client = fetch('client')
-
-get_party = ->
+getParty = ->
     hash = fetch('hash').val
     if hash
         return fetch('/' + hash)
@@ -199,16 +194,11 @@ get_party = ->
 
 # Initialize viewport sizes.
 getScreenSize = ->
-    width = window.screen.width
-    height = window.screen.height
-    if window.visualViewport?
-        width = Math.min(window.visualViewport.width, window.screen.width)
-        height = Math.min(window.visualViewport.height, window.screen.height)
-    return [width, height]
-
-client = fetch('client')
-[client.width, client.height] = getScreenSize()
-save(client)
+    test = document.getElementsByTagName('body')[0]
+    if test?
+        return [test.clientWidth, test.clientHeight]
+    else
+        return [0.75*window.screen.width, 0.75*window.screen.height]
 
 # Set the party hash.
 setHash = (str) ->
@@ -222,7 +212,7 @@ setHash = (str) ->
         party = {}
 
 newQuestion = ->
-    party = get_party()
+    party = getParty()
     n = party.question_number
     party.question_number =
         getDifferentRandomInt(questions.length, n)
@@ -233,7 +223,6 @@ PARTY_PAGE = ->
     DIV {className: 'bgwhirl'},
         PAGE_HEADER()
         QUESTION()
-
 
 LANDING_PAGE = ->
     hash = fetch('hash')
@@ -248,7 +237,7 @@ LANDING_PAGE = ->
                 setHash(id)
             BUTTON
                 className: 'home_button'
-                'create a party →'
+                "create a party →"
 
 HELP_ICON = ->
     SPAN {
@@ -256,7 +245,6 @@ HELP_ICON = ->
             "data-micromodal-trigger": "modal-1",
             onClick: => MicroModal.show("modal-1")
         }
-
 
 HELP_MODAL = ->
     DIV {
@@ -415,7 +403,6 @@ dom.BODY = ->
         HELP_ICON()
         HELP_MODAL()
 
-
 dom.PAGE_HEADER = ->
     DIV {className: 'header'},
         # # Asterisk logo before "Askhole"
@@ -444,7 +431,7 @@ dom.PAGE_HEADER = ->
             }
 
 dom.QUESTION = ->
-    party = get_party()
+    party = getParty()
     n = party.question_number
     if !n then newQuestion()
 
@@ -462,13 +449,9 @@ dom.QUESTION = ->
             DIV {
                     className: 'party_cardtext',
                     id: 'card',
-                    style: {fontSize: getCardFontSize(question.length)}
+                    style: { fontSize: getCardFontSize(question.length) }
                 },
                 cardtext
-
-
-# THIS MIGHT BE USEFUL
-#window.matchMedia("(orientation: portrait)").matches
 
 # Calculate the card font size.
 getCardFontSize = (length) ->
@@ -477,7 +460,7 @@ getCardFontSize = (length) ->
     device_const = if Math.min(client.width, client.height) < 500 then 1.25 else 1
     resolution_const = Math.sqrt((client.width) * (client.height))
     fontsize = (device_const * resolution_const / qlength_const / 20).toFixed(1)
-    if fontsize > 60 then fontsize = 60
+    if fontsize > 75 then fontsize = 75
     return fontsize + 'px'
 
 # The screen resize handler.
@@ -493,15 +476,20 @@ if window.visualViewport?
 else
     window.addEventListener('resize', onViewportSizeChange)
 
+# Make sure everyting's in preper shape once the DOM has loaded.
+window.addEventListener('DOMContentLoaded', onViewportSizeChange)
+
 # Keyboard shortcuts for turning over a new question.
-window.onkeydown = (e) ->
+window.addEventListener('keydown', ( (e) ->
     if e.which in [13,32,39]
         newQuestion()
     if e.key in ["?"]
         MicroModal.show("modal-1")
+    )
+)
 
 # Reload the page whenever the URL hash changes.
-window.onhashchange = -> dom.BODY()
+window.addEventListener('hashchange', ( (e) -> dom.BODY() ))
 
 </script>
 <script src="https://stateb.us/client6.js" server='state://invisible.college'></script>
@@ -515,4 +503,5 @@ gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width; initial-scale=1.0;">
+<meta charset="utf-8" />
 <script type='text/javascript'>MicroModal.init({awaitCloseAnimation: true});</script>
