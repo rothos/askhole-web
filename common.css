@@ -6,6 +6,10 @@ html, body {
     width: 100%;
 }
 
+code {
+    font-size: 1.1em;
+}
+
 .wrap {
     height: 100%;
 }
