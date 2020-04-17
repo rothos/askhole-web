@@ -50,8 +50,12 @@ code {
 }
     .header_wordmark {
         flex-grow: 0;
-
     }
+        .wordmark, .wordmark:hover, .wordmark:active, .wordmark:visited {
+            color: #272727;
+            text-decoration: none;
+            margin-right: .36em;
+        }
         .header_by {
             font-family: 'Lato', sans-serif;
             font-weight: bold;
