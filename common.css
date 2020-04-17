@@ -30,6 +30,8 @@ code {
         filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.4));
     }
 
+.phantom { visibility: hidden; }
+
 /* **********************************************************************/
 /* Specific DOM classes */
 
@@ -170,7 +172,15 @@ code {
                 font-size: 3em;
                 line-height: 1.2;
                 word-break: break-word;
+                position: relative;
             }
+                .party_cardnumber {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    color: #bbb;
+                    font-size: .8em;
+                }
         .card_footer {
             margin-top: .5em;
             display: flex;

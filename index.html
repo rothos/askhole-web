@@ -1,6 +1,7 @@
 <script type="coffee">
 
 # TODO
+# - telegram icon/link?
 # - "invite friends" with way to copy URL to clipboard
 # - bigger question lists
 # - ...animations?
@@ -451,11 +452,9 @@ dom.QUESTION = ->
     n = party.index
     order = party.order
 
-    question = questions[order[n]] || ''
-    number = order[n]+1 || ''
-    cardtext = '[loading...]'
-    if !loading()
-        cardtext = '#' + number + ': ' + question
+    question = if n then questions[order[n]] else ''
+    number = if n then '#'+(order[n]+1).toString() else ''
+    questiontext = if loading() then '[loading...]' else question
 
     DIV { className: 'main_wrap' },
         DIV {
@@ -473,7 +472,10 @@ dom.QUESTION = ->
                         id: 'card',
                         style: { fontSize: getCardFontSize(question.length) }
                     },
-                    cardtext
+                    SPAN { className: 'party_questiontext' },
+                        questiontext
+                        SPAN { className: 'phantom' }, ' '+number+' '
+                    SPAN { className: 'party_cardnumber' }, number
             DIV { className: 'card_footer' },
                 A {
                         className: 'twitterlink boxshadow',
@@ -533,4 +535,4 @@ gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width; initial-scale=1.0;">
 <meta charset="utf-8" />
-<script type='text/javascript'>MicroModal.init({awaitCloseAnimation: true});</script>
+<script type='text/javascript'>MicroModal.init({awaitCloseAnimation: !0});</script>
