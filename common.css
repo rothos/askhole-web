@@ -1,3 +1,6 @@
+/* **********************************************************************/
+/* Mods/overrides of skeleton.css */
+
 html, body {
     font-family: 'Lato', sans-serif;
     padding: 0;
@@ -10,7 +13,7 @@ code {
     font-size: 1.1em;
 }
 
-
+/* **********************************************************************/
 /* Helper classes */
 
 .boxshadow {
@@ -27,8 +30,7 @@ code {
         filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.4));
     }
 
-
-
+/* **********************************************************************/
 /* Specific DOM classes */
 
 .wrap {
@@ -38,7 +40,7 @@ code {
 .header {
     padding: .5em .75em;
     text-align: left;
-    font-family: 'Permanent Marker', cursive;
+    font-family: 'Permanent Marker', sans-serif;
     font-size: 1.5em;
     line-height: 1;
     color: #272727;
@@ -69,13 +71,12 @@ code {
             background-repeat: no-repeat;
         }
 
-
 .help_icon {
     position: fixed;
     bottom: 1em;
     right: 1em;
-    width: 50px;
-    height: 50px;
+    width: 3em;
+    height: 3em;
     background-image: url("help.png");
     background-position: 50% 50%;
     background-size: contain;
@@ -86,7 +87,6 @@ code {
         margin-top: 1em;
         margin-bottom: 1em;
     }
-
 
 .home_welcome {}
 .landing_hero {
@@ -104,24 +104,16 @@ code {
     margin-top: -6em;
 }
     .home_button {
-        background-color: #fff !important;
-    }
-    .home_form .home_button, button {
-        border: none !important;
+        background-color: #0FA0CE !important;
+        border: 6px solid #fff !important;
         line-height: inherit !important;
-        font-family: 'Permanent Marker', cursive !important;
+        font-family: 'Permanent Marker', sans-serif !important;
         font-size: 1.3em !important;
-        color: #333 !important;
-        padding: .4em 1em !important;
+        color: #fff !important;
+        padding: .2em .6em !important;
+        border-radius: 2em;
         height: auto;
     }
-
-label {
-    color: white;
-}
-
-
-
 
 .bgwhirl {
     background-color: #EB658A;
@@ -185,13 +177,10 @@ label {
                 font-size: 1.1em;
                 display: inline-flex;
                 align-items: center;
-                background-color: #fafafa;
+                background-color: #fff;
                 border-radius: 1em;
                 text-decoration: none;
             }
-                .twitterlink:hover {
-                    background-color: #fff;
-                }
                 .twitterlink .twittericon {
                     display: inline-block;
                     width: 1.5em;
@@ -208,8 +197,9 @@ label {
                     padding: 0 .6em 0 .4em;
                 }
 
+/* **********************************************************************/
+/* Media styles */
 
-/* Larger than ~tablet */
 @media (min-width: 850px) {
     .header {
         font-size: 2.5em;

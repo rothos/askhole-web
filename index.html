@@ -238,28 +238,28 @@ prevQuestion = ->
     return true
 
 PARTY_PAGE = ->
-    DIV {className: 'bgwhirl'},
+    DIV { className: 'bgwhirl' },
         PAGE_HEADER()
         QUESTION()
 
 LANDING_PAGE = ->
     hash = fetch('hash')
 
-    DIV {className: 'home_welcome'},
+    DIV { className: 'home_welcome' },
         PAGE_HEADER()
-        DIV {className: 'landing_hero'}
-        DIV {className: 'home_form'},
+        DIV { className: 'landing_hero' }
+        DIV { className: 'home_form' },
             onClick: =>
                 id = generateId(10)
-                window.location.href = document.baseURI + '#' + id
+                window.location.href = document.baseURI.split('#')[0] + '#' + id
                 setHash(id)
             BUTTON
-                className: 'home_button'
+                className: 'home_button boxshadow'
                 "create a party →"
 
 HELP_ICON = ->
     SPAN {
-            className: "help_icon",
+            className: "help_icon dropshadow",
             "data-micromodal-trigger": "modal-1",
             onClick: => MicroModal.show("modal-1")
         }
