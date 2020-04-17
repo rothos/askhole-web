@@ -455,7 +455,7 @@ dom.QUESTION = ->
             DIV { className: 'card_footer' },
                 A {
                         className: 'twitterlink',
-                        href: "https://twitter.com/intent/tweet?text=" + encodeURIComponent(question + " #askhole")
+                        href: "https://twitter.com/intent/tweet?text=" + encodeURIComponent('"' + question + '" #AskholeQuestions')
                         target: "_blank"
                     },
                     SPAN { className: 'twittericon' }

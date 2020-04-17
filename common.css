@@ -65,6 +65,7 @@ html, body {
 
 .home_welcome {}
 .landing_hero {
+    background-color: #EB658A;
     background: url("cover.jpg") center no-repeat;
     background-position: 50% 50%;
     background-size: cover;
@@ -98,6 +99,7 @@ label {
 
 
 .bgwhirl {
+    background-color: #EB658A;
     background: url("bgwhirl.png") center no-repeat;
     background-size: cover;
     min-height: 100%;
