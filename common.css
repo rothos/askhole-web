@@ -77,8 +77,8 @@ code {
 
 .help_icon {
     position: fixed;
-    bottom: 1em;
-    right: 1em;
+    top: 1.45em;
+    right: 1.45em;
     width: 3em;
     height: 3em;
     background-image: url("help.png");
@@ -208,11 +208,14 @@ code {
     .header {
         font-size: 2.5em;
     }
-    .tg {
+    .help_icon {
+        top: 1em;
+        right: 1em;
+    }
+    /*.tg {
         width: 32px;
         height: 32px;
-    }
-
+    }*/
 
     .main_wrap {
         flex-direction: row;

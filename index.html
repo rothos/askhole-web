@@ -270,7 +270,8 @@ HELP_MODAL = ->
         DIV {
                 className: "modal__overlay",
                 tabIndex: "-1",
-                "data-micromodal-close": ""
+                # "data-micromodal-close": ""
+                onClick: => MicroModal.close("modal-1")
             },
             DIV {
                     className: "modal__container",
@@ -287,7 +288,8 @@ HELP_MODAL = ->
                     BUTTON {
                         className: "modal__close",
                         "aria-label": 'Close modal',
-                        "data-micromodal-close": ""
+                        # "data-micromodal-close": ""
+                        onClick: => MicroModal.close("modal-1")
                     }
                 MAIN {
                         className: "modal__content",
@@ -433,11 +435,11 @@ dom.PAGE_HEADER = ->
                     target: '_blank'
                     },
                     'askhole.io'
-        DIV { className: 'header_links' },
-            A {
-                className: 'tg',
-                href: "https://t.me/askholecards"
-            }
+        # DIV { className: 'header_links' },
+        #     A {
+        #         className: 'tg',
+        #         href: "https://t.me/askholecards"
+        #     }
 
 dom.QUESTION = ->
     party = getParty()

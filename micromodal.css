@@ -47,6 +47,8 @@
 .modal__close {
   background: transparent;
   border: 0;
+
+  font-size: 1.3em;
 }
 
 .modal__header .modal__close:before { content: "\2715"; }
