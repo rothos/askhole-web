@@ -242,15 +242,17 @@ LANDING_PAGE = ->
 
     DIV { className: 'bglogo' },
         PAGE_HEADER()
-        DIV { className: 'home_button_wrap' },
-            BUTTON
-                className: 'home_button boxshadow',
-                onClick: =>
-                    id = generateId(10)
-                    window.location.href = document.baseURI.split('#')[0] + '#' + id
-                    setHash(id)
-                "Create a room \u2192"
-                # "Create a room →"
+        DIV { className: 'home_button_overlay' },
+            DIV { className: 'home_button_wrap' },
+                BUTTON
+                    className: 'home_button boxshadow',
+                    onClick: =>
+                        id = generateId(10)
+                        window.location.href = document.baseURI.split('#')[0] + '#' + id
+                        setHash(id)
+                    "Create a room \u2192\n"
+                DIV { className: 'home_button_subtext' },
+                    "share the link to play together"
 
 HELP_ICON = ->
     SPAN {
