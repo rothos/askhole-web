@@ -155,17 +155,6 @@ questions_extended = [
     "What are you the patron saint of?"
     ]
 
-# Generate a random integer up to (not including) max
-getRandomInt = (max) ->
-    Math.floor(Math.random() * Math.floor(max))
-
-# Get a random integer guaranteed to be different from a current one
-getDifferentRandomInt = (max, cur) ->
-    n = getRandomInt(max)
-    while n == cur
-        n = getRandomInt(max)
-    n
-
 # from https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 # dec2hex :: Integer -> String
 # i.e. 0-255 -> '00'-'ff'
@@ -179,6 +168,12 @@ generateId = (len) ->
     window.crypto.getRandomValues(arr)
     Array.from(arr, dec2hex).join('')
 
+selectElementContents = (el) ->
+    range = document.createRange()
+    range.selectNodeContents(el)
+    sel = window.getSelection()
+    sel.removeAllRanges()
+    sel.addRange(range)
 
 #--- STATE ---#
 
@@ -451,7 +446,7 @@ dom.QUESTION = ->
     order = party.order
 
     question = if n? then questions[order[n]] else ''
-    number = if n? then '#'+(order[n]+1).toString() else ''
+    number = if n? then (order[n]+1).toString() else ''
     questiontext = if loading() then '[loading...]' else question
 
     DIV { className: 'main_wrap' },
@@ -463,17 +458,36 @@ dom.QUESTION = ->
         DIV { className: 'cardstuff_wrap' },
             DIV {
                     className: 'party_card boxshadow',
-                    onClick: nextQuestion
+                    onClick: (e) =>
+                        if e?.target.classList.contains('noclick') or e?.target.parentElement?.classList.contains('noclick')
+                            e.stopPropagation()
+                            return false
+                        nextQuestion()
                 },
                 DIV {
-                        className: 'party_cardtext noselect',
+                        className: 'party_cardtext',
                         id: 'card',
                         style: { fontSize: getCardFontSize(question.length) }
                     },
-                    SPAN { className: 'party_questiontext' },
+                    SPAN { className: 'party_questiontext noselect' },
                         questiontext
                         SPAN { className: 'phantom' }, ' '+number+' '
-                    SPAN { className: 'party_cardnumber' }, number
+                    SPAN { className: 'party_cardnumber noclick' },
+                        '#'
+                        SPAN {
+                                className: 'editable noclick',
+                                id: 'cardnumber_editable'
+                                contentEditable: "true",
+                                onKeyPress: (e) =>
+                                    if e.which not in [[48..57]..., 8, 37, 39]
+                                        return false
+                                onClick: (e) => selectElementContents(e.target),
+                                onInput: (e) =>
+                                    number = parseInt(e.target.innerText)
+                                    if number not in [1..questions.length]
+                                        console.log('bad number')
+                            },
+                            number
             DIV { className: 'card_footer' },
                 A {
                         className: 'twitterlink boxshadow',
@@ -510,9 +524,26 @@ else
 window.addEventListener('DOMContentLoaded', onViewportSizeChange)
 
 # Keyboard shortcuts for turning over a new question.
-window.addEventListener('keydown', ( (e) ->
-        if e.which in [13,32,39] then nextQuestion()
-        if e.which in [37,8] then prevQuestion()
+window.addEventListener('keydown', ( (e) =>
+
+        # if document.getElementById('cardnumber_editable') == document.activeElement
+        #     if e.which not in [[48..57]..., 8, 37, 39]
+        #         e.stopPropagation()
+
+        if e.which in [13,32,39]
+            # Don't proceed to next question if we're editing the card number.
+            if document.getElementById('cardnumber_editable') == document.activeElement
+                return false
+
+            nextQuestion()
+
+        if e.which in [37,8]
+            # Don't proceed to next question if we're editing the card number.
+            if document.getElementById('cardnumber_editable') == document.activeElement
+                return false
+
+            prevQuestion()
+
         if e.key in ["?"] then MicroModal.show("modal-1")
     )
 )

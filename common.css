@@ -43,6 +43,10 @@ code {
                                   supported by Chrome, Opera and Firefox */
 }
 
+.editable {
+    cursor: text;
+}
+
 .phantom { visibility: hidden; }
 
 /* **********************************************************************/
@@ -193,6 +197,7 @@ code {
                     right: 0;
                     color: #bbb;
                     font-size: .8em;
+                    cursor: default;
                 }
         .card_footer {
             margin-top: .5em;
