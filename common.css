@@ -146,7 +146,10 @@ code {
         background-color: #0FA0CE !important;
         border: 6px solid #fff !important;
         line-height: inherit !important;
-        font-family: 'Permanent Marker', sans-serif !important;
+        font-family: 'Lato', sans-serif !important;
+        text-transform: none !important;
+        font-weight: normal !important;
+        letter-spacing: normal !important;
         font-size: 1.3em !important;
         color: #fff !important;
         padding: .2em .6em !important;
