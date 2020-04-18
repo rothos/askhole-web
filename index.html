@@ -197,14 +197,6 @@ getParty = ->
     else
         return {}
 
-# Initialize viewport sizes.
-getScreenSize = ->
-    test = document.getElementsByTagName('body')[0]
-    if test?
-        return [test.clientWidth, test.clientHeight]
-    else
-        return [0.75*window.screen.width, 0.75*window.screen.height]
-
 # Set the party hash.
 setHash = (str) ->
     hash = fetch('hash')
@@ -212,7 +204,6 @@ setHash = (str) ->
     save(hash)
 
     party = getParty()
-    console.log(party)
 
 # Fisher-Yates algorithm
 shuffle = (arr) ->
@@ -488,6 +479,14 @@ dom.QUESTION = ->
                     },
                     SPAN { className: 'twittericon' }
                     SPAN { className: 'linktext' }, "Tweet this question"
+
+# Initialize viewport sizes.
+getScreenSize = ->
+    body = document.getElementsByTagName('body')[0]
+    if body?
+        return [body.clientWidth, body.clientHeight]
+    else
+        return [0.75*window.screen.width, 0.75*window.screen.height]
 
 # Calculate the card font size.
 getCardFontSize = (length) ->

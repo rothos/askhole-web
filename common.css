@@ -195,7 +195,7 @@ code {
         }
     .cardstuff_wrap {
         width: 100%;
-        max-width: 600px;
+        max-width: 40em;
         margin: 0;
     }
         .party_card {
