@@ -484,18 +484,24 @@ dom.QUESTION = ->
 getScreenSize = ->
     body = document.getElementsByTagName('body')[0]
     if body?
-        return [body.clientWidth, body.clientHeight]
+        [width, height] = [body.clientWidth, body.clientHeight]
     else
-        return [0.75*window.screen.width, 0.75*window.screen.height]
+        [width, height] = [0.75*window.screen.width, 0.75*window.screen.height]
+
+    return [width, height]
 
 # Calculate the card font size.
 getCardFontSize = (length) ->
     client = fetch('client')
+    [width, height] = [Math.min(client.width, 1200), Math.min(client.height, 1000)]
+
     qlength_const = Math.max(0.9, (Math.sqrt(length)+3)/12.5) || 1
-    device_const = if Math.min(client.width, client.height) < 500 then 1.25 else 1
-    resolution_const = Math.sqrt((client.width) * (client.height))
+    device_const = if Math.min(width, height) < 500 then 1.25 else 1
+    resolution_const = Math.sqrt((width) * (height))
+
     fontsize = (device_const * resolution_const / qlength_const / 20).toFixed(1)
     if fontsize > 75 then fontsize = 75
+
     return fontsize + 'px'
 
 # The screen resize handler.
