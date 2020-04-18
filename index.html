@@ -15,6 +15,8 @@
 
 #--- COMMON ---#
 
+NAMESPACE_PREFIX = 'askhole_web/'
+
 questions = [
     "In what ways are you inhibited from expressing love?",
     "What difficult or painful experience would you recommend to everyone?",
@@ -144,15 +146,21 @@ questions = [
     ]
 
 questions_extended = [
-    "What is 'the moon'?",
-    "What's your favorite animal?",
+    # "What is 'the moon'?",
+    # "What's your favorite animal?",
+    # "What don't you know about yourself?",
+    # "Who is your arch-nemesis?",
+    # "When was the last time you did something for the first time?",
+    "To what do you attribute to your success?",
     "Have you named your genitals?",
     "Who is your alter ego?",
     "How do you predict you will die?",
-    "What don't you know about yourself?",
-    "When was the last time you did something for the first time?",
-    "Who is your arch-nemesis?",
-    "What are you the patron saint of?"
+    "What are you the patron saint of?",
+    "How old do you feel?",
+    "What's your greatest failure?",
+    "What is the worst thing anyone has ever done to you?",
+    "What are your most prized possessions?",
+    "What's your boring superpower?"
     ]
 
 # Generate a random integer up to (not including) max
@@ -183,9 +191,9 @@ generateId = (len) ->
 #--- STATE ---#
 
 getParty = ->
-    hash = fetch('hash').val
-    if hash
-        return fetch('/' + hash)
+    hash = fetch('hash')
+    if hash.val.length
+        return fetch('/' + NAMESPACE_PREFIX + hash)
     else
         return {}
 
@@ -203,10 +211,7 @@ setHash = (str) ->
     hash.val = str
     save(hash)
 
-    if hash.val.length
-        party = fetch('/' + hash.val)
-    else
-        party = {}
+    party = getParty()
 
 # Fisher-Yates algorithm
 shuffle = (arr) ->
