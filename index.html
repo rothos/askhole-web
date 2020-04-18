@@ -1,3 +1,5 @@
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width; initial-scale=1.0;">
 <script type="coffee">
 
 # TODO
@@ -257,7 +259,8 @@ LANDING_PAGE = ->
                     id = generateId(10)
                     window.location.href = document.baseURI.split('#')[0] + '#' + id
                     setHash(id)
-                "Create a room →"
+                "Create a room \u2192"
+                # "Create a room →"
 
 HELP_ICON = ->
     SPAN {
@@ -363,10 +366,10 @@ HELP_MODAL = ->
                     #     future, but for now that's all we got.)"
                     P "Keyboard shortcuts:"
                     P {},
-                        CODE "→"
+                        CODE "\u2192"
                         " Next card"
                         BR()
-                        CODE "←"
+                        CODE "\u2190"
                         " Previous card"
                         BR()
                         CODE "?"
@@ -535,8 +538,6 @@ gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link rel='stylesheet' href='micromodal.css'>
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital@0;1&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
-<meta name="viewport" content="width=device-width; initial-scale=1.0;">
-<meta charset="utf-8" />
 <script type='text/javascript'>MicroModal.init({awaitCloseAnimation: !0});</script>
 <link href="favicon.png" rel="shortcut icon" type="image/x-icon"/>
 <title>Askhole Web</title>
