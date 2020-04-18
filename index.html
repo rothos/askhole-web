@@ -17,8 +17,6 @@
 
 #--- COMMON ---#
 
-NAMESPACE_PREFIX = 'askholeweb_'
-
 questions = [
     "In what ways are you inhibited from expressing love?",
     "What difficult or painful experience would you recommend to everyone?",
@@ -195,7 +193,7 @@ generateId = (len) ->
 getParty = ->
     hash = fetch('hash')
     if hash.val.length
-        return fetch('/' + NAMESPACE_PREFIX + hash)
+        return fetch('/askholeweb_' + hash.val)
     else
         return {}
 
@@ -214,6 +212,7 @@ setHash = (str) ->
     save(hash)
 
     party = getParty()
+    console.log(party)
 
 # Fisher-Yates algorithm
 shuffle = (arr) ->
