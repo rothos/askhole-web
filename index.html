@@ -243,16 +243,15 @@ PARTY_PAGE = ->
 LANDING_PAGE = ->
     hash = fetch('hash')
 
-    DIV { className: 'home_welcome' },
+    DIV { className: 'bglogo' },
         PAGE_HEADER()
-        DIV { className: 'landing_hero' }
-        DIV { className: 'home_form' },
-            onClick: =>
-                id = generateId(10)
-                window.location.href = document.baseURI.split('#')[0] + '#' + id
-                setHash(id)
+        DIV { className: 'home_button_wrap' },
             BUTTON
-                className: 'home_button boxshadow'
+                className: 'home_button boxshadow',
+                onClick: =>
+                    id = generateId(10)
+                    window.location.href = document.baseURI.split('#')[0] + '#' + id
+                    setHash(id)
                 "create a party →"
 
 HELP_ICON = ->

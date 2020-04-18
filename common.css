@@ -48,6 +48,10 @@ code {
 /* **********************************************************************/
 /* Specific DOM classes */
 
+.modal__overlay {
+    z-index: 999;
+}
+
 .wrap {
     height: 100%;
 }
@@ -62,6 +66,7 @@ code {
     background-color: #fff;
     display: flex;
     justify-content: space-between;
+    z-index: 10;
 }
     .header_wordmark {
         flex-grow: 0;
@@ -91,6 +96,7 @@ code {
         }
 
 .help_icon {
+    z-index: 11;
     position: fixed;
     top: 1.45em;
     right: 1.45em;
@@ -115,14 +121,28 @@ code {
     background-size: cover;
     width: 100%;
     min-height: 500px;
+    height: 100%;
     text-align: center;
 }
-.home_form {
+.bglogo {
+    background-color: #EB658A;
+    background: url("cover.jpg") center no-repeat;
+    background-size: cover;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.home_button_wrap {
     width: 100%;
-    text-align: center;
-    margin-top: -6em;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    z-index: 1;
 }
     .home_button {
+        display: block;
         background-color: #0FA0CE !important;
         border: 6px solid #fff !important;
         line-height: inherit !important;
@@ -130,6 +150,7 @@ code {
         font-size: 1.3em !important;
         color: #fff !important;
         padding: .2em .6em !important;
+        margin: 15vh auto;
         border-radius: 2em;
         height: auto;
     }
@@ -152,7 +173,7 @@ code {
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
-    margin: 2em;
+    margin: 1em 2em;
     flex-direction: column;
 }
     .backbutton {
