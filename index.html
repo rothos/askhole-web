@@ -3,10 +3,11 @@
 <script type="coffee">
 
 # TODO
-# - telegram icon/link?
+# - link to a meet.jit.si chatroom??
 # - "invite friends" with way to copy URL to clipboard
 # - bigger question lists
 # - ...animations?
+# - telegram icon/link?
 # - make more fun IDs (noun concat)
 # - beautiful typography
 # - dark/light themes
@@ -451,7 +452,7 @@ dom.QUESTION = ->
 
     question = if n? then questions[order[n]] else ''
     number = if n? then '#'+(order[n]+1).toString() else ''
-    questiontext = if loading() then '[loading...]' else question
+    questiontext = if loading() then '[loading...]' else smartquotes(question)
 
     DIV { className: 'main_wrap' },
         DIV {
@@ -536,6 +537,7 @@ window.addEventListener('hashchange', ( (e) -> dom.BODY() ))
 </script>
 <script src="https://stateb.us/client6.js" server='state://invisible.college'></script>
 <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+<script src="smartquotes.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138298500-2"></script>
 <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
