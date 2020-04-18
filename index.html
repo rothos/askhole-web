@@ -193,7 +193,7 @@ generateId = (len) ->
 getParty = ->
     hash = fetch('hash')
     if hash.val.length
-        return fetch('/askholeweb_' + hash.val)
+        return fetch('/askholeweb/room/' + hash.val)
     else
         return {}
 
