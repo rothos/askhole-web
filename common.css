@@ -57,10 +57,8 @@ code {
 }
 
 .header {
-    padding: .5em .75em;
+    padding: .75em 1.125em;
     text-align: left;
-    font-family: 'Permanent Marker', sans-serif;
-    font-size: 1.5em;
     line-height: 1;
     color: #272727;
     background-color: #fff;
@@ -72,28 +70,69 @@ code {
         flex-grow: 0;
     }
         .wordmark, .wordmark:hover, .wordmark:active, .wordmark:visited {
+            font-size: 1.5em;
+            font-family: 'Permanent Marker', sans-serif;
             color: #272727;
             text-decoration: none;
             margin-right: .36em;
         }
         .header_by {
-            font-family: 'Lato', sans-serif;
+            /*font-family: 'Lato', sans-serif;*/
             font-weight: bold;
-            font-size: .6em;
+            font-size: .9em;
         }
     .header_links {
+        align-self: flex-end;
+        margin-right: 5em;
+        font-size: 1em;
         flex-grow: 0;
-        align-self: center;
+        display: none;
+        justify-content: space-around;
     }
-        .tg {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            background-image: url("tg.png");
-            background-position: 50% 50%;
-            background-size: contain;
-            background-repeat: no-repeat;
+        .header_links > span {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: .1em .5em .1em 0;
         }
+            .header_links > span span {
+                font-size: .8em;
+                text-align: right;
+            }
+            .header_links > span input {
+                width: 40;
+                margin: 0 0 0 .7em;
+                padding: .25em;
+                height: 2em;
+                border-bottom-left-radius: 4px;
+                border-top-left-radius: 4px;
+                border: 1px solid #ccc;
+                color: #555;
+            }
+            .header_links > span button {
+                padding: .2em .2em .2em .4em;
+                height: 2em;
+                margin-bottom: 0;
+                position: relative;
+                right: 1px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+                .header_links > span button img {
+                    height: 1.5em;
+                }
+
+        .header_links a {
+            margin-left: 1em;
+            background: url("copy.png") center right no-repeat;
+            background-size: 1em;
+            padding-right: 1.35em;
+            text-decoration: none;
+            color: #333;
+        }
+            .header_links a:hover {
+                text-decoration: underline;
+            }
 
 .help_icon {
     z-index: 11;
@@ -262,21 +301,35 @@ code {
 
 @media (min-width: 850px) {
     .header {
-        font-size: 2.5em;
+        font-size: 1.666666666666em;
     }
+        .header_links {
+            margin-right: 3.5em;
+            flex-direction: column;
+            font-size: .7em;
+            height: 2.5em;
+        }
+            .header_links a {
+                margin-right: 0;
+            }
     .help_icon {
         top: 1em;
         right: 1em;
     }
-    /*.tg {
-        width: 32px;
-        height: 32px;
-    }*/
 
     .main_wrap {
         flex-direction: row;
     }
         .backbutton {
             margin-bottom: 2.37em;
+        }
+}
+
+
+
+
+@media (min-width: 700px) {
+        .header_links {
+            display: flex;
         }
 }

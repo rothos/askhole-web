@@ -3,17 +3,12 @@
 <script type="coffee">
 
 # TODO
-# - link to a meet.jit.si chatroom??
 # - "invite friends" with way to copy URL to clipboard
+# - link to a meet.jit.si chatroom??
 # - bigger question lists
-# - ...animations?
-# - telegram icon/link?
 # - make more fun IDs (noun concat)
-# - beautiful typography
-# - dark/light themes
-
-# BUGS
-# - Zooming (including pinch-zooming) screws up font size
+# - telegram icon/link?
+# - ...animations?
 
 
 #--- COMMON ---#
@@ -421,6 +416,8 @@ dom.BODY = ->
         HELP_MODAL()
 
 dom.PAGE_HEADER = ->
+    hash = fetch('hash')
+
     DIV {className: 'header'},
         DIV { className: 'header_wordmark' },
             A {
@@ -428,17 +425,24 @@ dom.PAGE_HEADER = ->
                     href: '#'
                 }, 'ASKHOLE WEB'
             SPAN { className: 'header_by' },
-                'by '
+                'by\u00A0'
                 A {
                     href: '//askhole.io',
                     target: '_blank'
                     },
                     'askhole.io'
-        # DIV { className: 'header_links' },
-        #     A {
-        #         className: 'tg',
-        #         href: "https://t.me/askholecards"
-        #     }
+        if hash.val.length
+            DIV { className: 'header_links' },
+                SPAN {},
+                    'invite link'
+                    INPUT { id: 'copyinput1', className: 'copytrigger', value: 'http://web.askhole.io/#'+hash.val }
+                    BUTTON { className: 'copytrigger', "data-clipboard-target": '#copyinput1' },
+                        IMG { src: 'clippy.svg', alt: "Copy to clipboard" }
+                SPAN {},
+                    'videochat link'
+                    INPUT { id: 'copyinput2', className: 'copytrigger', value: 'https://meet.jit.si/'+hash.val }
+                    BUTTON { className: 'copytrigger', "data-clipboard-target": '#copyinput2' },
+                        IMG { src: 'clippy.svg', alt: "Copy to clipboard" }
 
 dom.QUESTION = ->
     party = getParty()
@@ -522,6 +526,7 @@ else
 
 # Make sure everyting's in preper shape once the DOM has loaded.
 window.addEventListener('DOMContentLoaded', onViewportSizeChange)
+window.addEventListener('DOMContentLoaded', => new ClipboardJS('.copytrigger'))
 
 # Keyboard shortcuts for turning over a new question.
 window.addEventListener('keydown', ( (e) ->
@@ -537,6 +542,7 @@ window.addEventListener('hashchange', ( (e) -> dom.BODY() ))
 </script>
 <script src="https://stateb.us/client6.js" server='state://invisible.college'></script>
 <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
 <script src="smartquotes.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138298500-2"></script>
 <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
