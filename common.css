@@ -13,6 +13,33 @@ code {
     font-size: 1.1em;
 }
 
+/* Checkbox styles from
+   https://stackoverflow.com/a/52683804
+   */
+input[type=checkbox] {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -o-appearance: none;
+    outline: none;
+    content: none;
+}
+input[type=checkbox]:before {
+    font-family: "FontAwesome";
+    color: transparent !important;
+    display: block;
+    content: "\f00c";
+    font-size: 1.2em;
+    background: #fef2e0;
+    width: 1em;
+    height: 1em;
+    border: 1px solid #666;
+    border-radius: .2em;
+    margin-right: 0;
+}
+input[type=checkbox]:checked:before {
+    color: #333 !important;
+}
+
 /* **********************************************************************/
 /* Helper classes */
 
@@ -239,7 +266,7 @@ code {
         box-shadow: 2px 2px 3px rgba(0,0,0,0.4);
     }
     .questionsetmenu label {
-        margin: 0 .4em;
+        margin: 0 .5em;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
@@ -250,7 +277,7 @@ code {
             color: #0a0a0a;
         }
         .questionsetmenu label input {
-            margin: 0 .7em 0 0;
+            margin: 0 .58em 0 0;
         }
 
 .main_wrap {
