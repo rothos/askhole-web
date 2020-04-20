@@ -82,6 +82,7 @@ code {
             font-size: .9em;
         }
     .header_links {
+        height: 1.5em;
         align-self: flex-end;
         margin-right: 5em;
         font-size: 1em;
@@ -307,7 +308,7 @@ code {
             margin-right: 3.5em;
             flex-direction: column;
             font-size: .7em;
-            height: 2.5em;
+            height: 2.15em;
         }
             .header_links a {
                 margin-right: 0;
