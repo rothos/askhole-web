@@ -4,10 +4,8 @@
 
 # TODO
 # - bigger question lists
-# - make more fun IDs (noun concat)
 # - telegram icon/link?
 # - ...animations?
-
 
 #--- COMMON ---#
 
@@ -140,11 +138,6 @@ questions = [
     ]
 
 questions_extended = [
-    # "What is 'the moon'?",
-    # "What's your favorite animal?",
-    # "What don't you know about yourself?",
-    # "Who is your arch-nemesis?",
-    # "When was the last time you did something for the first time?",
     "To what do you attribute to your success?",
     "Have you named your genitals?",
     "Who is your alter ego?",
@@ -220,28 +213,6 @@ prevQuestion = ->
     party.index = (party.index - 1 + len) % len
     save(party)
     return true
-
-PARTY_PAGE = ->
-    DIV { className: 'bgwhirl' },
-        PAGE_HEADER()
-        QUESTION()
-
-LANDING_PAGE = ->
-    hash = fetch('hash')
-
-    DIV { className: 'bglogo' },
-        PAGE_HEADER()
-        DIV { className: 'home_button_overlay' },
-            DIV { className: 'home_button_wrap' },
-                BUTTON
-                    className: 'home_button boxshadow',
-                    onClick: =>
-                        id = generateId(10)
-                        window.location.href = document.baseURI.split('#')[0] + '#' + id
-                        setHash(id)
-                    "Create a room \u2192\n"
-                DIV { className: 'home_button_subtext' },
-                    "share the link to play together"
 
 HELP_ICON = ->
     SPAN {
@@ -408,6 +379,29 @@ dom.BODY = ->
         HELP_ICON()
         HELP_MODAL()
 
+PARTY_PAGE = ->
+    DIV { className: 'bgwhirl' },
+        PAGE_HEADER()
+        QUESTION()
+        QUESTIONSET_MENU()
+
+LANDING_PAGE = ->
+    hash = fetch('hash')
+
+    DIV { className: 'bglogo' },
+        PAGE_HEADER()
+        DIV { className: 'home_button_overlay' },
+            DIV { className: 'home_button_wrap' },
+                BUTTON
+                    className: 'home_button boxshadow',
+                    onClick: =>
+                        id = generateId(10)
+                        window.location.href = document.baseURI.split('#')[0] + '#' + id
+                        setHash(id)
+                    "Create a room \u2192\n"
+                DIV { className: 'home_button_subtext' },
+                    "share the link to play together"
+
 dom.PAGE_HEADER = ->
     hash = fetch('hash')
 
@@ -436,6 +430,17 @@ dom.PAGE_HEADER = ->
                     INPUT { id: 'copyinput2', className: 'copytrigger', value: 'https://meet.jit.si/'+hash.val }
                     BUTTON { className: 'copytrigger', "data-clipboard-target": '#copyinput2' },
                         IMG { src: 'clippy.svg', alt: "Copy to clipboard" }
+
+dom.QUESTIONSET_MENU = ->
+
+    DIV { className: 'questionsetmenu_wrap' },
+        SPAN { className: 'questionsetmenu boxshadow' },
+            LABEL { className: 'noselect' },
+                INPUT { type: 'checkbox' }
+                'Original q\'s (125)'
+            LABEL { className: 'noselect' },
+                INPUT { type: 'checkbox' }
+                'Extra q\'s (200)'
 
 dom.QUESTION = ->
     party = getParty()

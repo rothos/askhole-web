@@ -64,6 +64,7 @@ code {
     background-color: #fff;
     display: flex;
     justify-content: space-between;
+    box-shadow: 0px 2px 3px rgba(0,0,0,0.2);
     z-index: 10;
 }
     .header_wordmark {
@@ -77,9 +78,8 @@ code {
             margin-right: .36em;
         }
         .header_by {
-            /*font-family: 'Lato', sans-serif;*/
-            font-weight: bold;
             font-size: .9em;
+            font-style: italic;
         }
     .header_links {
         height: 1.5em;
@@ -219,6 +219,40 @@ code {
 .bgwhirl, .bgwhirl > * {
     flex-shrink: 0;
 }
+
+.questionsetmenu_wrap {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+    .questionsetmenu {
+        font-size: 1.1em;
+        display: inline-flex;
+        background-color: #fff;
+        border-radius: 1em;
+        padding: 0 .5em;
+        margin-bottom: 1em;
+        height: 1.9em;
+    }
+    .questionsetmenu:hover {
+        box-shadow: 2px 2px 3px rgba(0,0,0,0.4);
+    }
+    .questionsetmenu label {
+        margin: 0 .4em;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        font-weight: normal;
+        font-size: .9em;
+    }
+        .questionsetmenu label:active {
+            color: #0a0a0a;
+        }
+        .questionsetmenu label input {
+            margin: 0 .7em 0 0;
+        }
+
 .main_wrap {
     display: flex;
     flex-grow: 1;
