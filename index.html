@@ -6,6 +6,8 @@
 # - bigger question lists
 # - telegram icon/link?
 # - ...animations?
+# - dynamic versioning/updating [with backwards compatibility]
+# "party" -> "room"
 
 #--- COMMON ---#
 
@@ -166,13 +168,6 @@ words = ["Account","Act","Adjustment","Advertisement","Agreement","Air","Amount"
 getRandomInt = (max) ->
     Math.floor(Math.random() * Math.floor(max))
 
-# Get a random integer guaranteed to be different from a current one
-getDifferentRandomInt = (max, cur) ->
-    n = getRandomInt(max)
-    while n == cur
-        n = getRandomInt(max)
-    n
-
 # Generate an ID as a string of 3 random words from the list.
 generateId = (len) ->
     [a, b, c] = [getRandomInt(words.length), getRandomInt(words.length), getRandomInt(words.length)]
@@ -181,6 +176,7 @@ generateId = (len) ->
 
 #--- STATE ---#
 
+# Get the current party based on the URL hash.
 getParty = ->
     hash = fetch('hash')
     if hash.val.length
@@ -188,7 +184,7 @@ getParty = ->
     else
         return {}
 
-# Set the party hash.
+# Set the current hash & update the party based on it.
 setHash = (str) ->
     hash = fetch('hash')
     hash.val = str
@@ -209,10 +205,11 @@ shuffleDeck = ->
     party.order = shuffle([0..totalQuestionCount()-1])
     party.index = 0
     save(party)
+    return true
 
 totalQuestionCount = ->
-    lens = (q.list.length for q in questions)
-    lens.reduce( ((a, b) => a + b), 0 )
+    listlengths = (q.list.length for q in questions)   # Array of list lengths
+    listlengths.reduce( ((a, b) => a + b), 0 )         # Return the sum
 
 nextQuestion = ->
     party = getParty()
@@ -228,16 +225,34 @@ prevQuestion = ->
     save(party)
     return true
 
+advanceQuestion = (step = 1) ->
+    return true
+
 getCurrentQuestion = ->
     party = getParty()
     [index, order] = [party.index, party.order]
-    n = order[index]
+    k = order[index]
     count = 0
     for qset in questions
-        if n < qset.list.length
-            return qset.list[n]
+        if k < qset.list.length
+            return [qset.list[k], count+k+1]
         else
-            n -= qset.list.length
+            k -= qset.list.length
+            count += qset.list.length
+
+toggleVisibleSet = (i) ->
+    console.log('i = ' + i)
+    party = getParty()
+    index = party.visiblesets.indexOf(i)
+    if index > -1   # If the index is in visiblesets
+        party.visiblesets.splice(index, 1)
+        save(party)
+    else
+        party.visiblesets.push(i)
+        party.visiblesets.sort()
+        save(party)
+    return true
+
 
 HELP_ICON = ->
     SPAN {
@@ -457,11 +472,34 @@ dom.PAGE_HEADER = ->
                         IMG { src: 'clippy.svg', alt: "Copy to clipboard" }
 
 dom.QUESTIONSET_MENU = ->
+
+    party = getParty()
+
     DIV { className: 'questionsetmenu_wrap' },
         SPAN { className: 'questionsetmenu boxshadow' },
-            for qset in questions
-                LABEL { className: 'noselect' },
-                    INPUT { type: 'checkbox' }
+
+            # Loop over each question set.
+            for qset, i in questions
+
+                id = 'qset'+i.toString()
+                checked = if i in party.visiblesets then true else false
+
+                # Creat the checkbox for this question set.
+                checkbox = INPUT {
+                    type: 'checkbox'
+                    id: id+'box'
+                    onClick: toggleVisibleSet.bind(this, i)
+                }
+
+                # Check it if the associated set is visible.
+                if checked then checkbox.props.checked = checked
+
+                # Now create the label for the box, with the box inside it.
+                LABEL {
+                        className: 'noselect'
+                        id: id
+                    },
+                    checkbox
                     smartquotes(qset.label) + ' (' + parseInt(qset.list.length) + ')'
 
 dom.QUESTION = ->
@@ -469,13 +507,15 @@ dom.QUESTION = ->
 
     party.index ?= 0
     party.order ?= shuffle([0..totalQuestionCount()-1])
+    party.visiblesets ?= [0..questions.length-1]
     save(party)
 
     n = party.index
     order = party.order
+    visiblesets = party.visiblesets
 
-    question = if n? then getCurrentQuestion() else ''
-    number = if n? then '#'+(order[n]+1).toString() else ''
+    [question, n] = if n? then getCurrentQuestion() else ''
+    number = if n? then '#'+n.toString() else ''
     questiontext = if loading() then '[loading...]' else smartquotes(question)
 
     DIV { className: 'main_wrap' },
