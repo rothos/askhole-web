@@ -254,7 +254,7 @@ input[type=checkbox]:checked:before {
     justify-content: center;
 }
     .questionsetmenu {
-        font-size: 1.1em;
+        font-size: 1em;
         display: inline-flex;
         background-color: #fff;
         border-radius: 1em;
@@ -388,11 +388,11 @@ input[type=checkbox]:checked:before {
         }
 }
 
-
-
-
 @media (min-width: 700px) {
-        .header_links {
-            display: flex;
-        }
+    .header_links {
+        display: flex;
+    }
+    .questionsetmenu {
+        font-size: 1.1em;
+    }
 }
