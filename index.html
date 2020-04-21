@@ -622,7 +622,7 @@ dom.QUESTIONSET_MENU = ->
                         id: id
                     },
                     checkbox
-                    smartquotes(qset.label) + ' (' + parseInt(qset.list.length) + ')'
+                    smartquotes(qset.label + ' (' + qset.list.length + ')')
 
 dom.QUESTION = ->
     party = getParty()
