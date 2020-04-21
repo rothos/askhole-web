@@ -2,12 +2,13 @@
 <meta name="viewport" content="width=device-width; initial-scale=1.0;">
 <script type="coffee">
 
-# TODO
-# - bigger question lists
-# - telegram icon/link?
+# To-dos:
 # - ...animations?
-# - dynamic versioning/updating [with backwards compatibility]
 # "party" -> "room"
+
+# Dope features for the future:
+# - matching, omegle style, for playing with strangers
+# - "submit a question" (little plus sign in bottom corner -> modal)
 
 #--- COMMON ---#
 
@@ -438,21 +439,21 @@ HELP_MODAL = ->
                         """
                         A { href: "//web.askhole.io", target: "_blank" }, "web.askhole.io"
                         " "
-                        """
+                        smartquotes("""
                         and click the "Create a room" button, you'll be taken
                         to a new Askhole Web "chat room". Now this so-called
                         "chat room" doesn't have any chat functionality, and nor
                         is it a room, but what it does do is automatically
                         synchronize the question that is displayed with anyone
                         else who is also visiting the same URL.
-                        """
+                        """)
                     P {},
-                        """
+                        smartquotes("""
                         So, if you're on a conference call or a group
                         videochat, you can share an Askhole Web link with all
                         your unlucky pals and remotely enjoy a good
                         old-fashioned round of Askhole.
-                        """
+                        """)
                     P {},
                         """
                         A well-formed Askhole Web URL is anything of the form 
@@ -470,10 +471,8 @@ HELP_MODAL = ->
                         "Click on the card to proceed to the next one. When the
                         question changes, it changes for "
                         EM "everyone"
-                        " who is in the room (everyone who is visiting your
-                        URL). That's about all there is to it."
-                    # P  "(More functionality will likely be added in the
-                    #     future, but for now that's all we got.)"
+                        smartquotes(" who is in the room (everyone who is visiting your
+                        URL). That's about all there is to it.")
                     P "Keyboard shortcuts:"
                     P {},
                         CODE "\u2192"
@@ -488,7 +487,7 @@ HELP_MODAL = ->
                         className: "modal__title",
                         id: 'modal-1-title'
                         },
-                        "Something isn't exactly the way I want it"
+                        smartquotes("Something isn't exactly the way I want it")
                     # P "Boo fuckin hoo."
                     P {},
                         "You can "
@@ -519,9 +518,13 @@ HELP_MODAL = ->
                         """
                         It also makes use of the fantastic 
                         """
-                        A { href: '//micromodal.now.sh', target: "_blank" }, "Micromodal.js"
-                        " and "
                         A { href: '//getskeleton.com/', target: "_blank" }, "Skeleton.css"
+                        ", "
+                        A { href: '//clipboardjs.com/', target: "_blank" }, "Clipboard.js"
+                        ", "
+                        A { href: '//micromodal.now.sh', target: "_blank" }, "Micromodal.js"
+                        ", and "
+                        A { href: '//smartquotes.js.org/', target: "_blank" }, "Smartquotes.js"
                         "."
 
 dom.BODY = ->
@@ -759,4 +762,4 @@ gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link rel="preload" href="twitter.png" as="image">
 <link href="favicon.png" rel="shortcut icon" type="image/x-icon"/>
 <script type='text/javascript'>MicroModal.init({awaitCloseAnimation: !0});</script>
-<title>Askhole Web</title>
+<title>Askhole Web: Play with Friends</title>
