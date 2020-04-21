@@ -159,6 +159,22 @@ questions = [
             "What's your boring superpower?"
         ]
     }
+    # {
+    #     name: "extra2",
+    #     label: "Extra 2 q's",
+    #     list: [
+    #         "To what do you attribute to your success?",
+    #         "Have you named your genitals?",
+    #         "Who is your alter ego?",
+    #         "How do you predict you will die?",
+    #         "What are you the patron saint of?",
+    #         "How old do you feel?",
+    #         "What's your greatest failure?",
+    #         "What is the worst thing anyone has ever done to you?",
+    #         "What are your most prized possessions?",
+    #         "What's your boring superpower?"
+    #     ]
+    # }
 ]
 
 # Wordlist for generating unique chat room IDs.
@@ -212,36 +228,76 @@ totalQuestionCount = ->
     listlengths.reduce( ((a, b) => a + b), 0 )         # Return the sum
 
 nextQuestion = ->
-    party = getParty()
-    len = totalQuestionCount()
-    party.index = (party.index + 1 + len) % len
-    save(party)
-    return true
+    advanceQuestion(1)
+    # party = getParty()
+    # len = totalQuestionCount()
+    # party.index = (party.index + 1 + len) % len
+    # save(party)
+    # return true
 
 prevQuestion = ->
-    party = getParty()
-    len = totalQuestionCount()
-    party.index = (party.index - 1 + len) % len
-    save(party)
-    return true
+    advanceQuestion(-1)
+    # party = getParty()
+    # len = totalQuestionCount()
+    # party.index = (party.index - 1 + len) % len
+    # save(party)
+    # return true
 
 advanceQuestion = (step = 1) ->
-    return true
+    party = getParty()
+    len = party.order.length
+
+    # If no question sets are visible, do nothing.
+    if party.visiblesets.length == 0
+        return
+
+    # Progress up to the current question
+    while getQuestionSetIndex(party.index) not in party.visiblesets
+        party.index = (party.index + step + len) % len
+
+    # Step up one to beyond the current question
+    party.index = (party.index + step + len) % len
+
+    # Proceed until the actual next question
+    while getQuestionSetIndex(party.index) not in party.visiblesets
+        party.index = (party.index + step + len) % len
+
+    save(party)
 
 getCurrentQuestion = ->
     party = getParty()
     [index, order] = [party.index, party.order]
+    len = party.order.length
+
+    # Return dummy text if no questionsets are selected.
+    if party.visiblesets.length == 0
+        return [':(', '\u221E']
+
+    while getQuestionSetIndex(index) not in party.visiblesets
+        index += 1
+        index = (index + len) % len
+
+    question_number = order[index] + 1
     k = order[index]
-    count = 0
+
     for qset in questions
         if k < qset.list.length
-            return [qset.list[k], count+k+1]
+            return [qset.list[k], question_number]
         else
             k -= qset.list.length
-            count += qset.list.length
+
+getQuestionSetIndex = (index) ->
+    party = getParty()
+    index ?= party.index
+    order = party.order
+    k = order[index]
+    for qset, i in questions
+        if k < qset.list.length
+            return i
+        else
+            k -= qset.list.length
 
 toggleVisibleSet = (i) ->
-    console.log('i = ' + i)
     party = getParty()
     index = party.visiblesets.indexOf(i)
     if index > -1   # If the index is in visiblesets
@@ -491,7 +547,7 @@ dom.QUESTIONSET_MENU = ->
                     onClick: toggleVisibleSet.bind(this, i)
                 }
 
-                # Check it if the associated set is visible.
+                # Check the box if the associated question set is visible.
                 if checked then checkbox.props.checked = checked
 
                 # Now create the label for the box, with the box inside it.
@@ -505,11 +561,34 @@ dom.QUESTIONSET_MENU = ->
 dom.QUESTION = ->
     party = getParty()
 
+    allIndices = [0..totalQuestionCount()-1]
+    visiblesetIndicies = [0..questions.length-1]
+
+    # Set default values if these variables don't exist.
     party.index ?= 0
-    party.order ?= shuffle([0..totalQuestionCount()-1])
-    party.visiblesets ?= [0..questions.length-1]
+    party.order ?= []
+    party.visiblesets ?= visiblesetIndicies
+
+    # Validation on index.
+    if party.index not in allIndices
+        party.index = 0
+
+    # Validation on the card shuffle order.
+    if party.order.length != totalQuestionCount()
+        party.order = shuffle(allIndices)
+
+    # Validation on the visible sets.
+    if !party.visiblesets.every((a) -> a in visiblesetIndicies)
+        newsets = []
+        for visiblesetIndex in party.visiblesets
+            if visiblesetIndex in visiblesetIndicies
+                newsets.push(visiblesetIndex)
+        party.visiblesets = newsets
+
+    # Save validated info.
     save(party)
 
+    # Now actually pull the current question.
     n = party.index
     order = party.order
     visiblesets = party.visiblesets
@@ -518,6 +597,7 @@ dom.QUESTION = ->
     number = if n? then '#'+n.toString() else ''
     questiontext = if loading() then '[loading...]' else smartquotes(question)
 
+    # Create the DOM for the question.
     DIV { className: 'main_wrap' },
         DIV {
                 className: 'backbutton',
