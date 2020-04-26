@@ -57,6 +57,10 @@ input[type=checkbox]:checked:before {
         filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.4));
     }
 
+.onlydesktop {
+    display: none;
+}
+
 /*  from
     https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting
 */
@@ -290,16 +294,24 @@ input[type=checkbox]:checked:before {
     margin: 1em 2em;
     flex-direction: column;
 }
-    .backbutton {
+    .mobileprevnextbuttons {
+        display: flex;
+        flex-direction: row;
+    }
+    .onlymobile .prevbutton { margin-right: 1em; }
+    .onlymobile .nextbutton { margin-left:  1em; }
+    .onlydesktop.prevbutton { margin-right: .7em; }
+    .onlydesktop.nextbutton { margin-left:  .7em; }
+    .prevbutton, .nextbutton {
         cursor: pointer;
-        margin-right: .7em;
         margin-bottom: 1em;
     }
-        .backbutton span {
+        .nextbutton span { background-image: url('next.png'); }
+        .prevbutton span { background-image: url('prev.png'); }
+        .prevbutton span, .nextbutton span {
             display: inline-block;
             width: 3em;
             height: 3em;
-            background-image: url('back.png');
             background-position: 50% 50%;
             background-size: contain;
             background-repeat: no-repeat;
@@ -383,8 +395,15 @@ input[type=checkbox]:checked:before {
     .main_wrap {
         flex-direction: row;
     }
-        .backbutton {
+        .prevbutton, .nextbutton {
             margin-bottom: 2.37em;
+        }
+
+        .onlydesktop {
+            display: initial;
+        }
+        .onlymobile {
+            display: none;
         }
 }
 

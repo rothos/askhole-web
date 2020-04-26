@@ -668,8 +668,19 @@ dom.QUESTION = ->
 
     # Create the DOM for the question.
     DIV { className: 'main_wrap' },
+        DIV { className: 'mobileprevnextbuttons onlymobile' },
+            DIV {
+                    className: 'prevbutton',
+                    onClick: prevQuestion
+                },
+                SPAN { className: 'dropshadow' }
+            DIV {
+                    className: 'nextbutton',
+                    onClick: nextQuestion
+                },
+                SPAN { className: 'dropshadow' }
         DIV {
-                className: 'backbutton',
+                className: 'prevbutton onlydesktop',
                 onClick: prevQuestion
             },
             SPAN { className: 'dropshadow' }
@@ -695,6 +706,11 @@ dom.QUESTION = ->
                     },
                     SPAN { className: 'twittericon' }
                     SPAN { className: 'linktext' }, "Tweet this question"
+        DIV {
+                className: 'nextbutton onlydesktop',
+                onClick: nextQuestion
+            },
+            SPAN { className: 'dropshadow' }
 
 # Initialize viewport sizes.
 getScreenSize = ->
@@ -764,7 +780,8 @@ gtag('js', new Date()); gtag('config', 'UA-138298500-2');</script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet"/>
 <link rel="preload" href="bgwhirl.png" as="image">
 <link rel="preload" href="cover.jpg" as="image">
-<link rel="preload" href="back.png" as="image">
+<link rel="preload" href="next.png" as="image">
+<link rel="preload" href="prev.png" as="image">
 <link rel="preload" href="help.png" as="image">
 <link rel="preload" href="twitter.png" as="image">
 <link href="favicon.png" rel="shortcut icon" type="image/x-icon"/>
