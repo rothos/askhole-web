@@ -187,7 +187,7 @@ input[type=checkbox]:checked:before {
 .home_welcome {}
 .landing_hero {
     background-color: #EB658A;
-    background: url("cover.jpg") center no-repeat;
+    background: url("cover.png") center no-repeat;
     background-position: 50% 50%;
     background-size: cover;
     width: 100%;
@@ -197,7 +197,7 @@ input[type=checkbox]:checked:before {
 }
 .bglogo {
     background-color: #EB658A;
-    background: url("cover.jpg") center no-repeat;
+    background: url("cover.png") center no-repeat;
     background-size: cover;
     min-height: 100%;
     display: flex;
